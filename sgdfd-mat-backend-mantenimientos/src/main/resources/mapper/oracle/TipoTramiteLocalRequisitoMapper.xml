@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.TipoTramiteLocalRequisitoMapper">
+
+	<sql id="fragmentoSelectTipoTramiteRequisito">
+        SELECT    vwmtr.id_tipo_tramite			AS	 idTipoTramite
+        		, vwmtr.nombre					AS	 nombre
+				, vwmtr.codigo_local			AS	 codigoLocal
+				, vwmtr.descripcion				AS	 descripcion
+				, vwmtr.id_requisito			AS	 idRequisito
+				, vwmtr.nombre_requisito		AS	 nombreRequisito
+				, vwmtr.numero_orden 			AS 	 numeroOrden
+				, vwmtr.estado					AS	 estado
+				, vwmtr.indicador_obligatorio 	AS   indicadorObligatorio
+<!-- 				, vwmtr.forma_envio				AS	 formaEnvio -->
+<!-- 				, vwmtr.abreviatura				AS	 descripFormaEnvio -->
+    	FROM VW_MAN_TIPO_TRAMIT_LOC_REQUISI vwmtr
+	</sql>
+
+	<select id="buscarTodos" resultType="TipoTramiteLocalRequisitoResponse">
+		<include refid="fragmentoSelectTipoTramiteRequisito" />
+	</select>
+	
+	<select id="buscarPorIdTipoTramite" resultType="TipoTramiteLocalRequisitoResponse">
+		<include refid="fragmentoSelectTipoTramiteRequisito" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			id_tipo_tramite = #{idTipoTramite}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorIdRequisito" resultType="TipoTramiteLocalRequisitoResponse">
+		<include refid="fragmentoSelectTipoTramiteRequisito" />
+		<where>
+		<if test="idRequisito != '' and idRequisito != null">
+			id_requisito = #{idRequisito}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorIdTipoTramiteYCodigoLocalYIdRequisito" resultType="TipoTramiteLocalRequisitoResponse">
+		<include refid="fragmentoSelectTipoTramiteRequisito" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			id_tipo_tramite = #{idTipoTramite}
+		</if>
+		<if test="codigoLocal != '' and codigoLocal != null">
+			AND codigo_local = #{codigoLocal}
+		</if>
+		<if test="idRequisito != '' and idRequisito != null">
+			AND id_requisito = #{idRequisito}
+		</if>
+		</where>
+	</select>	
+	
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_TIPO_TRAMITE_LOC_REQUI (
+		     #{modo,             			      		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idTipoTramite,			jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.codigoLocal,				jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idRequisito,     		jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.numeroOrden,   			jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.indicadorObligatorio,   	jdbcType = INTEGER, mode = IN},
+			 #{objetoMantenido.estado,       			jdbcType = INTEGER, mode = IN}, 
+<!-- 			 #{objetoMantenido.formaEnvio,       		jdbcType = VARCHAR, mode = IN},  -->
+			 #{usuario,                   				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+</mapper>

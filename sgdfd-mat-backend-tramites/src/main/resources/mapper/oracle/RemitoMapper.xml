@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.tramites.mapper.RemitoMapper">
+	 
+	<sql id="fragmentoSelectRemito">
+		SELECT       vwmu.anio_emision             			 as anioEmision
+		           , vwmu.numero_emision             		 as numeroEmision
+		           , vwmu.numero_correlativo      			 as numeroCorrelativo	
+		           , vwmu.tipo_emision	           			 as tipoEmision
+		           , vwmu.anio_expediente					as anioExpediente
+		           , vwmu.numero_expediente					as numeroExpediente
+		           , vwmu.numero_secuencial_expediente		as numeroSecuencialExpediente
+		           , vwmu.tipo_documento_solicitante		as tipoDocumentoSolicitante
+		           , vwmu.numero_documento_solicitante		as numeroDocumentoSolicitante
+		           , vwmu.id_tipo_tramite					as idTipoTramite
+		           , vwmu.asunto							as asunto
+		           , vwmu.numero_folios						as numeroFolios
+		           , vwmu.numero_dias_atencion				as numeroDiasAtencion
+		           , vwmu.codigo_dependencia_emision		as codigoDependenciaEmision
+		           , vwmu.codigo_empleado_emision			as codigoEmpleadoEmision
+		           , vwmu.codigo_empleado_responsable		as codigoEmpleadoResponsable
+		           , vwmu.codigo_dependencia_mp				as codigoDependenciaMp
+		           , vwmu.codigo_local						as codigoLocal
+		  
+      	FROM VW_MOV_REMITO vwmu   		
+	</sql>
+	
+	<sql id="fragmentoSelectTramiteRemito">
+		SELECT	vwmtt.nombre_archivo				AS		nombreArchivo
+ 			,	vwmtt.id_tipo_tramite				AS		idTipoTramite 
+<!-- 			,	vwmtt.numero_folios					AS		numeroFolios -->
+			,	vwmtt.numero_dias_atencion			AS		numeroDiasAtencionRemito
+			,	vwmtt.tipo_documento				AS		tipoEmisor
+			,	vwmtt.codigo_local_sgd				AS		codigoLocalEmision
+			,	vwmtt.codigo_dependencia_emision	AS		codigoDependenciaEmision
+			,	vwmtt.codigo_empleado_emision		AS		codigoEmpleadoEmision
+			,	vwmtt.codigo_empleado_responsable	AS		codigoEmpleadoResponsable
+			,	vwmtt.numero_dni					AS		numeroDni
+			,	vwmtt.codigo_dependencia_mp			AS		codigoDependenciaMp
+			,	vwmtt.codigo_proceso_sgd			AS		codigoProceso
+			,	vwmtt.observacion_tramite			AS		observacionTramite
+			,	vwmtt.id_local						AS		codigoLocal
+			,	vwmtt.codigo_dependencia			AS		codigoDependencia
+			,	vwmtt.codigo_tipo_destino			AS		codigoTipoDestino
+			,	vwmtt.codigo_empleado_destino		AS		codigoEmpleado
+			,	vwmtt.codigo_prioridad				AS		codigoPrioridad
+			,	vwmtt.indicaciones					AS		indicaciones
+			,	vwmtt.codigo_motivo					AS		codigoMotivo
+		FROM VW_CON_EMPLEADO_TRAMITE vwmtt
+	</sql>
+	
+	<resultMap type="RemitoTramitResponse" id="mapTramiteReporteEmpleado">
+<!-- 		<id property="idTipoTramite" column="idTipoTramite"></id> -->
+<!-- 		<id property="codigoLocalEmision" column="codigoLocalEmision"></id> -->
+			
+		<result property="idTipoTramite" column="idTipoTramite"></result>
+		<result property="codigoLocalEmision" column="codigoLocalEmision"></result>
+		<result property="nombreArchivo" column="nombreArchivo"></result>	
+		
+		<collection property="documentoEmi" javaType="DocumentEmiResponse">
+<!-- 			<result property="numeroFolios" column="numeroFolios"></result>	 -->
+			<result property="numeroDiasAtencionRemito" column="numeroDiasAtencionRemito"></result>
+		</collection>
+		
+		<collection property="remitenteEmi" javaType="RemitentEmiResponse">	
+ 			<result property="tipoEmisor" column="tipoEmisor"></result> 
+<!-- 			<id property="codigoEmpleadoEmision" column="codigoEmpleadoEmision"></id> -->
+			<result property="codigoLocalEmision" column="codigoLocalEmision"></result>
+			<result property="codigoDependenciaEmision" column="codigoDependenciaEmision"></result>
+			<result property="codigoEmpleadoEmision" column="codigoEmpleadoEmision"></result>
+			<result property="codigoEmpleadoResponsable" column="codigoEmpleadoResponsable"></result>
+			<result property="codigoDependenciaMp" column="codigoDependenciaMp"></result>
+		</collection>	
+		
+		<collection property="expedienteEmi" javaType="ExpedientEmiResponse">	
+			<result property="codigoProceso" column="codigoProceso"></result>
+			<result property="observacionTramite" column="observacionTramite"></result>
+		</collection>		
+	
+		<collection property="lsDestinatarios" javaType="List" ofType="DestinatariosDeResponse">
+			<result property="codigoLocal" column="codigoLocal"></result>
+			<result property="codigoDependencia" column="codigoDependencia"></result>
+			<result property="codigoTipoDestino" column="codigoTipoDestino"></result>
+			<result property="codigoEmpleado" column="codigoEmpleado"></result>	
+			<result property="codigoPrioridad" column="codigoPrioridad"></result>		
+			<result property="indicaciones" column="indicaciones"></result>	
+			<result property="codigoMotivo" column="codigoMotivo"></result>	
+		</collection>	
+			
+	</resultMap>
+
+	<select id="buscarTodos" resultType="RemitoResponse">
+		<include refid="fragmentoSelectRemito" />
+	</select>
+	
+	
+	<select id="buscarTramitePorEmpleadoYTipo" resultMap="mapTramiteReporteEmpleado">
+		<include refid="fragmentoSelectTramiteRemito" />
+		<where>
+		<if test="numeroDni != '' and numeroDni != null">
+			numero_dni = #{numeroDni}
+		</if>	
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			AND id_tipo_tramite = #{idTipoTramite}
+		</if>
+		</where>
+	</select>
+	
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MOV.PRC_MOV_REMITO (
+		     #{modo,                   						jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.anioEmision,					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.numeroEmision,			   	jdbcType = VARCHAR  , mode = IN},
+             #{objetoMantenido.numeroCorrelativo,       	jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.tipoEmision,       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.anioExpediente,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.numeroExpediente,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.numeroSecuencialExpediente, 	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.tipoDocumentoSolicitante,   	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.numeroDocumentoSolicitante, 	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idTipoTramite,       		jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.asunto,       				jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.numeroFolios,      		 	jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.numeroDiasAtencion,       	jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.codigoDependenciaEmision,	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoEmpleadoEmision,   	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoEmpleadoResponsable, 	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoDependenciaMp,       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoLocal,       			jdbcType = VARCHAR, mode = IN},    
+			 #{usuario,                   					jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+	
+</mapper>

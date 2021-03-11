@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.PerfilLocalMapper">
+
+    <sql id="fragmentoSelectPerfilLocal">
+        SELECT 
+        	   id_perfil      				AS idPerfil
+        	 , codigo_local 				AS codigoLocal
+             , nombre_perfil    			AS nombrePerfil
+             , nombre_local     			AS nombreLocal
+             , indicador_visualizacion      AS indicadorVisualizacion
+             , abreviatura					AS descripIndiVisual
+             
+        FROM vw_man_perfil_local
+    </sql>
+
+
+	<select id="buscarTodos" resultType="PerfilLocalResponse">
+		<include refid="fragmentoSelectPerfilLocal" />
+	</select>
+
+	<select id="buscarPorIdPerfilYCodigoLocal" resultType="PerfilLocalResponse">
+		<include refid="fragmentoSelectPerfilLocal" />
+			<where>
+				<if test="idPerfil != '' and idPerfil != null">
+					id_perfil = #{idPerfil}
+				</if>
+				
+				<if test="codigoLocal != '' and codigoLocal != null">
+					AND codigo_local = #{codigoLocal}
+				</if>
+			</where>
+	</select>
+	
+	<select id="buscarPorIdPerfil" resultType="PerfilLocalResponse">
+		<include refid="fragmentoSelectPerfilLocal" />
+			<where>
+				<if test="idPerfil != '' and idPerfil != null">
+					id_perfil = #{idPerfil}
+				</if>
+			
+			</where>
+	</select>
+
+
+    <select id="mantener"  statementType="CALLABLE">
+        {
+            CALL PKG_MANTENIMIENTOS.PRC_MAN_PERFIL_LOCAL(
+                #{modo, 							  		  jdbcType=VARCHAR, mode=IN},
+                #{objetoMantenido.idPerfil, 	          	  jdbcType=INTEGER, mode=IN},
+                #{objetoMantenido.codigoLocal,				  jdbcType=VARCHAR, mode=IN},
+                #{objetoMantenido.indicadorVisualizacion,	  jdbcType=VARCHAR, mode=IN},
+                #{usuario, 						      		  jdbcType=VARCHAR, mode=IN}
+            )
+        }
+    </select>
+
+</mapper>

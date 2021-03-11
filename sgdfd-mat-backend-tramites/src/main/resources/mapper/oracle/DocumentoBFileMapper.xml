@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.tramites.mapper.DocumentoBFileMapper">
+
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call BLOB_TO_BFILE (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.docType,  				jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.inputBlob	,       	jdbcType = BLOB, mode = IN},
+             #{objetoMantenido.filePath	,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.fileName,       			jdbcType = VARCHAR, mode = IN},
+			 #{usuario,                   				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+</mapper>

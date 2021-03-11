@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.tramites.mapper.TramiteMapper">
+	
+	<sql id="fragmentoSelectTramite">
+        SELECT       id_tramite                 as idTramite
+		           , fecha_vencimiento          as fechaVencimiento
+		           , numero_expediente          as numeroExpediente
+		           , id_solicitud_tramite       as idSolicitudTramite
+    	FROM VW_TRA_TRAMITE vwtt
+	</sql>
+
+    <select id="buscarTodos" resultType="TramiteResponse">
+		<include refid="fragmentoSelectTramite" />
+	</select>
+
+<!-- 	<select id="buscarPorId" resultType="Tramite"> -->
+<!-- 		<include refid="fragmentoSelectTramite" /> -->
+<!-- 		<where> -->
+<!-- 		<if test="idTramite != '' and idTramite != null"> -->
+<!-- 			id_tramite = #{idTramite} -->
+<!-- 		</if> -->
+<!-- 		</where> -->
+<!-- 	</select> -->
+    
+<!--     <select id="buscarPorCriterio" resultType="TipoTramite"> -->
+<!-- 		<include refid="fragmentoSelectTipoTramite" /> -->
+<!-- 		<where> -->
+<!-- 		<if test="idTipoTramite != '' and idTipoTramite != null"> -->
+<!-- 			id_tipo_tramite = #{idTipoTramite} -->
+<!-- 		</if> -->
+<!-- 		</where> -->
+<!-- 	</select> -->
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_TRAMITES.PRC_PRO_TRAMITE (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idTramite,				jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.fechaVencimiento,       	jdbcType = DATE	  , mode = IN},
+             #{objetoMantenido.numeroExpediente,       	jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.idSolicitudTramite,      jdbcType = INTEGER, mode = IN},
+			 #{usuario,                   				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+</mapper>

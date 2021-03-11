@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.CronogramaVigenteMapper">
+	 
+	<sql id="fragmentoSelectCronogramaVigente">
+		SELECT       vwmu.id_tipo_tramite              as idTipoTramite
+				   , vwmu.nombre_tramite			   as nombreTramite 
+		           , vwmu.id_item                	   as idItem
+		           , vwmu.periodo                	   as periodo	
+		           , vwmu.descripcion	               as descripcion
+		           , vwmu.codigo_local				   as codigoLocal
+				   , vwmu.nombre_local				   as nombreLocal
+				   , vwmu.periodo_fecha				   as periodoFecha
+				   , vwmu.periodo_fecha_descrip		   as periodoFechaDescripcion
+		  
+      	FROM VW_CON_CRONOGRAMA vwmu   		
+	</sql>
+	
+	<select id="buscarTodos" resultType="CronogramaVigenteResponse">
+		<include refid="fragmentoSelectCronogramaVigente"/>
+	</select>
+	
+	<select id="buscarPorIdTipoTramite" resultType="CronogramaVigenteResponse">
+		<include refid="fragmentoSelectCronogramaVigente" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			vwmu.id_tipo_tramite = #{idTipoTramite}
+		</if>	
+		</where>
+	</select>
+	
+	<select id="buscarPorIdTipoTramiteYCodigoLocal" resultType="CronogramaVigenteResponse">
+		<include refid="fragmentoSelectCronogramaVigente" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			vwmu.id_tipo_tramite = #{idTipoTramite}
+		</if>	
+		<if test="codigoLocal != '' and codigoLocal != null">
+			AND vwmu.codigo_local = #{codigoLocal}
+		</if>	
+		</where>
+	</select>
+	
+	<select id="buscarPorIdTipoTramiteYIdItemYCodigoLocal" resultType="CronogramaVigenteResponse">
+		<include refid="fragmentoSelectCronogramaVigente" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			vwmu.id_tipo_tramite = #{idTipoTramite}
+		</if>	
+		<if test="idItem != '' and idItem != null">
+			AND vwmu.id_item = #{idItem}
+		</if>		
+		<if test="codigoLocal != '' and codigoLocal != null">
+			AND vwmu.codigo_local = #{codigoLocal}
+		</if>	
+		</where>
+	</select>
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_CRONOGRAMA_VIGENTE (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idTipoTramite,			jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.idItem,       			jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.periodo,       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.descripcion,	      		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoLocal, 			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.periodoFecha, 			jdbcType = DATE, mode = IN},
+			 #{usuario,                    				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+	
+</mapper>

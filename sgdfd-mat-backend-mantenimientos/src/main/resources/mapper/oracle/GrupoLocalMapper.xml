@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.GrupoLocalMapper">
+
+	<sql id="fragmentoSelectGrupoLocal">
+        SELECT    vwmgl.id_grupo_local	AS	 idGrupoLocal
+				, vwmgl.nombre			AS	 nombre
+				, vwmgl.descripcion		AS	 descripcion
+    	FROM VW_MAN_GRUPO_LOCAL vwmgl
+	</sql>
+
+	<select id="buscarTodos" resultType="GrupoLocalResponse">
+		<include refid="fragmentoSelectGrupoLocal" />
+	</select>
+	
+	<select id="buscarPorIdGrupoLocal" resultType="GrupoLocalResponse">
+		<include refid="fragmentoSelectGrupoLocal" />
+		<where>
+		<if test="idGrupoLocal != '' and idGrupoLocal != null">
+			id_grupo_local = #{idGrupoLocal}
+		</if>
+		</where>
+	</select>
+	
+	
+	<select id="buscarPorCriterio" resultType="GrupoLocalResponse">
+		<include refid="fragmentoSelectGrupoLocal" />
+		<where>
+		<if test="idGrupoLocal != '' and idGrupoLocal != null">
+			id_grupo_local = #{idGrupoLocal}
+		</if>
+		</where>
+	</select>
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_GRUPO_LOCAL (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idGrupoLocal,			jdbcType = INTEGER, mode = INOUT},
+             #{objetoMantenido.nombre,       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.descripcion,       		jdbcType = VARCHAR, mode = IN},
+			 #{usuario,                   				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+</mapper>
+
+	
+

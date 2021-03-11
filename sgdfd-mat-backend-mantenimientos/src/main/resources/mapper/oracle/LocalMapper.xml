@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.LocalMapper">
+
+	<sql id="fragmentoSelectLocal">
+        SELECT    vwml.codigo_local			 AS	  codigoLocal
+				, vwml.nombre				 AS	  nombre
+				, vwml.descripcion			 AS	  descripcion
+				, vwml.id_grupo_local	 	 AS	  idGrupoLocal
+				, vwml.nom_grupo_local   	 AS   nomGrupoLocal
+				, vwml.codigo_local_sgd 	 AS   codigoLocalSgd
+				, vwml.sigla_local  	 	 AS   siglaLocal
+				
+    	FROM VW_MAN_LOCAL vwml
+	</sql>
+	
+	<sql id="fragmentoSelectLocalPerfil">
+        SELECT DISTINCT  
+        		  vwmlp.codigo_local		 AS	  codigoLocal
+        		, vwmlp.descripcion			 AS	  descripcion
+				, vwmlp.nombre			 	 AS	  nombre
+    	FROM VW_CON_LOCAL_PERFIL vwmlp
+	</sql>
+
+	<select id="buscarTodos" resultType="LocalResponse">
+		<include refid="fragmentoSelectLocal" />
+	</select>
+	
+	<select id="buscarPorId" resultType="LocalResponse">
+		<include refid="fragmentoSelectLocal" />
+		<where>
+		<if test="codigoLocal != '' and codigoLocal != null">
+			codigo_local = #{codigoLocal}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorDocumento" resultType="LocalResponse">
+		<include refid="fragmentoSelectLocalPerfil" />
+		<where>
+			<if test="numeroDocumento != '' and numeroDocumento != null">
+				vwmlp.numero_documento  = #{numeroDocumento}
+			</if>
+		</where>
+		ORDER BY vwmlp.codigo_local DESC
+	</select>
+	
+	<select id="buscarPorGrupoLocal" resultType="LocalResponse">
+		<include refid="fragmentoSelectLocal" />
+		<where>
+			<if test="idGrupoLocal != '' and idGrupoLocal != null">
+				id_grupo_local  = #{idGrupoLocal}
+			</if>
+		</where>
+	</select>
+		
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_LOCAL (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoLocal,				jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.nombre,       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.descripcion,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idGrupoLocal,			jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.codigoLocalSgd,       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.siglaLocal,       		jdbcType = VARCHAR, mode = IN},
+			 #{usuario,                 				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+</mapper>
+
+	
+

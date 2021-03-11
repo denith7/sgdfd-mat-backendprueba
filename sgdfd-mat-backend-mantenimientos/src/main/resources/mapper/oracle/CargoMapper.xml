@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.CargoMapper">
+
+	<sql id="fragmentoSelectCargo">
+        SELECT    codigo_cargo			 AS	  codigoCargo
+				, descripcion			 AS	  descripcion
+				, estado			 	 AS	  estado
+				, estado_descripcion	 AS	  descripcionEstado
+				
+    	FROM vw_man_cargo 
+	</sql>
+
+	<select id="buscarTodos" resultType="CargoResponse">
+		<include refid="fragmentoSelectCargo" />
+	</select>
+	
+	<select id="buscarPorCodigoCargo" resultType="CargoResponse">
+		<include refid="fragmentoSelectCargo" />
+		<where>
+		<if test="codigoCargo != '' and codigoCargo != null">
+			codigo_cargo = #{codigoCargo}
+		</if>
+		</where>
+	</select>
+		
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_CARGO (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoCargo,				jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.descripcion,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.estado,       			jdbcType = VARCHAR, mode = IN},
+			 #{objetoMantenido.usuario,                 jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+</mapper>
+
+	
+

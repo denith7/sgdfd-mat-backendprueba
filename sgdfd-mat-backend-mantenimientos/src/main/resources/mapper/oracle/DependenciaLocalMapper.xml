@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.DependenciaLocalMapper">
+	
+	
+	<sql id="fragmentoSelectDependenciaLocal">
+        SELECT   		  vmdl.codigo_dependencia 	AS codigoDependencia
+						, vmdl.codigo_local   		AS codigoLocal
+						, vmdl.titulo_dependencia 	AS tituloDependencia
+						, vmdl.nombre_local			AS nombreLocal
+						, vmdl.estado 				AS estado
+						, vmdl.estado_descripcion	AS estadoDescripcion
+    	FROM VW_MAN_DEPENDENCIA_LOCAL vmdl
+	</sql>
+	
+	
+	<select id="buscarTodos" resultType="DependenciaLocalResponse">
+		<include refid="fragmentoSelectDependenciaLocal" />
+	</select>
+
+	<select id="buscarPorCodigoDependenciaYCodigoLocal" resultType="DependenciaLocalResponse">
+		<include refid="fragmentoSelectDependenciaLocal"/>
+		<where>
+		<if test="codigoDependencia != '' and codigoDependencia != null">
+				codigo_dependencia  = #{codigoDependencia}
+		</if>
+		<if test="codigoLocal != '' and codigoLocal != null">
+			AND codigo_local = #{codigoLocal}
+		</if>
+		</where>
+	</select>
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_DEPENDENCIA_LOCAL (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoLocal,				jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoDependencia,       jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.estado,       			jdbcType = VARCHAR, mode = IN},
+			 #{usuario,				                    jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+	
+	
+</mapper>	

@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_journalDetalle" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8ab14550-a879-4c6c-aa28-248cd33a5bae">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="1.6105100000000043"/>
+	<parameter name="numeroDocumento" class="java.lang.String"/>
+	<parameter name="codigoAlumno" class="java.lang.String"/>
+	<parameter name="nombreCompleto" class="java.lang.String"/>
+	<parameter name="facultad" class="java.lang.String"/>
+	<parameter name="escuelaProfesional" class="java.lang.String"/>
+	<parameter name="especialidad" class="java.lang.String"/>
+	<parameter name="numeroSolicitud" class="java.lang.String"/>
+	<parameter name="tramite" class="java.lang.String"/>
+	<parameter name="fechaSolicitud" class="java.util.Date"/>
+	<parameter name="estadoSolicitud" class="java.lang.String"/>
+	<parameter name="fechaAprobacion" class="java.util.Date"/>
+	<parameter name="estadoTramite" class="java.lang.String"/>
+	<parameter name="fechaGeneracion" class="java.util.Date"/>
+	<parameter name="numeroExpediente" class="java.lang.String"/>
+	<parameter name="tipoDocumento" class="java.lang.String"/>
+	<parameter name="domicilio" class="java.lang.String"/>
+	<parameter name="celular" class="java.lang.String"/>
+	<parameter name="correoInstitucional" class="java.lang.String"/>
+	<parameter name="tipoSolicitante" class="java.lang.String"/>
+	<parameter name="lugarSolicitado" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="idRequisito" class="java.lang.Integer"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="formato" class="java.lang.String"/>
+	<background>
+		<band height="6" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="416" splitType="Stretch">
+			<line>
+				<reportElement x="3" y="383" width="551" height="1" uuid="18d5814d-8ca8-4948-bfd2-aa9dc1fd632e"/>
+			</line>
+			<staticText>
+				<reportElement x="137" y="0" width="280" height="40" uuid="f7dea5af-a81f-45f3-b233-29f7bda6c7cd">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[SISTEMA DE GESTIÓN DOCUMENTAL CON FIRMA DIGITAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="117" y="40" width="320" height="15" uuid="86bd9bdf-f221-4768-ab2c-89d7637ee70d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Módulo de Atención de Trámites]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="117" y="60" width="320" height="15" uuid="7a35c4c8-e20b-43e3-888a-23fa8a75f6fb"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="11" isBold="true" isItalic="false" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[FORMATO ÚNICO DE TRAMITE]]></text>
+			</staticText>
+			<image>
+				<reportElement x="47" y="0" width="70" height="75" uuid="6ef3a73c-14cf-4fd2-a6a5-2477ecbb55ef"/>
+				<imageExpression><![CDATA["unmsm.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="437" y="0" width="69" height="75" uuid="000f5f88-6cee-4159-978b-01ed01b70624"/>
+				<imageExpression><![CDATA["LOG_CP.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="2" y="90" width="280" height="25" uuid="4f72fc65-0f23-45dd-a10c-bdce4c06900c">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos del Solicitante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="217" width="112" height="15" uuid="6b96e044-7aa8-41d8-b50f-0643d5c25af1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Especialidad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="153" width="112" height="15" uuid="d3e54c5e-2e1b-49df-a202-3ffb22d5f12e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Nombre Completo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="185" width="112" height="15" uuid="651e645d-144b-48ac-8ce9-3dce82c92c0e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Facultad: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="201" width="112" height="15" uuid="3fe28c58-8f4e-4ad0-ae22-8d02c110cf5c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Escuela/Dpt. Académico:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="274" y="312" width="100" height="15" uuid="7f99ac27-b05d-438a-872e-1b9e5b0fd330">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Estado Solicitud: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="343" width="112" height="15" uuid="f801d611-f993-496b-b1de-b9c94804c724">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Trámite:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="263" width="246" height="25" uuid="2c4de329-8f6b-48aa-b3c3-a7188ddd692b">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos de la Solicitud]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="327" width="112" height="15" uuid="7fde9f30-2320-4f60-bf63-fb2c56f07dd1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Fecha Aprobación:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="312" width="112" height="15" uuid="5ef1a425-c37b-49b9-8240-f3c5177f7001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Fecha Solicitud:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="274" y="122" width="100" height="15" uuid="0746758b-d933-4e2e-9e1d-422594c84dc3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Número Documento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="274" y="137" width="100" height="15" uuid="e405c30c-997f-4e1e-8c36-f434c218c4c8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Código:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="274" y="328" width="100" height="15" uuid="bf35297b-b7cb-483c-9606-425534c79612">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Estado Trámite:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="297" width="112" height="14" uuid="073af5d1-f28c-48ec-8bc4-24a77e9da649"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[N° Solicitud:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="374" y="122" width="180" height="14" uuid="08de291a-d923-4034-b537-a75d5e144aa5"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding=""/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numeroDocumento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="374" y="138" width="160" height="14" uuid="7f96f195-3a7a-47d1-9c58-cd6fd0d908fc"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding=""/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{codigoAlumno}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="116" y="153" width="436" height="14" uuid="2d095fb6-9c04-4558-ad41-78795e93209c"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding=""/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombreCompleto}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="116" y="185" width="430" height="14" uuid="37059fbd-ecc9-4e7e-a9ed-48d15e1f7a68"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding=""/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{facultad}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="116" y="201" width="430" height="14" uuid="65300145-565a-42ad-be65-1cdacd69cb58"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding=""/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{escuelaProfesional}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="116" y="217" width="430" height="14" uuid="709a7948-00f9-4c88-8883-a08dfdd1a159"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding=""/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{especialidad}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="115" y="297" width="156" height="14" uuid="74d0a2da-f469-489b-86a0-e9f62acef83a"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding=""/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numeroSolicitud}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="115" y="343" width="438" height="14" uuid="3fa08079-4ff4-497b-9cf4-d7e5ac320e91"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding=""/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tramite}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="115" y="312" width="156" height="14" uuid="20c543b5-42a5-4080-bbb6-21b89c88b1e2"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding=""/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaSolicitud}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="374" y="312" width="154" height="14" uuid="6acff715-9fb0-4a49-b2d8-fe77cfa2e7f1"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding=""/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{estadoSolicitud}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="115" y="327" width="156" height="14" uuid="6436c232-ab17-4eca-9f44-1652c044ed57"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding=""/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaAprobacion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="374" y="328" width="154" height="14" uuid="a91d2b39-0cbc-4a8b-936f-c0de06c908cb"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding=""/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{estadoTramite}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="391" width="270" height="25" uuid="06311276-ef95-4810-ba80-d1867f5b055f">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Requisitos Entregados]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="80" width="556" height="1" uuid="7bda56d3-1c2e-44a2-a202-c3026467ac71">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="274" y="297" width="100" height="14" uuid="4100568a-020b-48b0-ba15-58fc982e306a"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[N° Expediente:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="374" y="297" width="154" height="14" uuid="c844a7de-15fb-4729-abd8-d2c8dae224a4"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numeroExpediente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="122" width="112" height="15" uuid="e1e9f58c-1b23-4e36-aade-6af509a5c048"/>
+				<text><![CDATA[Tipo Documento:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="116" y="122" width="146" height="15" uuid="45b8a7d3-1b84-4c59-ad6f-c1013a83c75c"/>
+				<textFieldExpression><![CDATA[$P{tipoDocumento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="232" width="112" height="18" uuid="275cbe72-0fe0-4a10-aada-81d1a1550f8a"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Domicilio:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="116" y="232" width="436" height="18" uuid="5ab49b4e-26bd-47e0-8eb0-bcdc601c3f5a"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{domicilio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="168" width="112" height="16" uuid="abe57c87-6cf4-42da-ab8b-4ef7b5863ca0"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Celular:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="116" y="168" width="146" height="16" uuid="94a08dbc-ede5-4fd6-93d1-9b604ab2f903"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{celular}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="274" y="168" width="100" height="16" uuid="c68fbd64-0565-4c47-b65f-4e84e5dfa065"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Correo Electrónico:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="374" y="168" width="180" height="16" uuid="1879a806-1653-4c36-9a3b-6d8c82af1579"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{correoInstitucional}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="137" width="112" height="16" uuid="eb888ce9-72ea-42b4-9580-c3a03f39398f"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Tipo de Solicitante:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="116" y="137" width="146" height="16" uuid="7ee47b2d-18da-4721-9327-b56339bc4f37"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tipoSolicitante}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="360" width="112" height="20" uuid="284901f9-1e33-4096-ac55-9ad0da768c14"/>
+				<text><![CDATA[Solicitado a:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="115" y="361" width="436" height="18" uuid="6564cc19-74c3-4c75-af97-600b318e492e"/>
+				<textFieldExpression><![CDATA[$P{lugarSolicitado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="6" width="80" height="17" backcolor="#D7D9DB" uuid="9841f9ed-7977-41ef-8571-c5bbcb12f4b6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3d4e9ada-6dcc-458a-9cdf-e325771b4050"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° Requisito]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="349" y="6" width="96" height="17" backcolor="#D7D9DB" uuid="9841f9ed-7977-41ef-8571-c5bbcb12f4b6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3d4e9ada-6dcc-458a-9cdf-e325771b4050"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Formato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="445" y="6" width="98" height="17" backcolor="#D7D9DB" uuid="109494be-cf59-4fc4-b9be-2adf17c19b03">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3d4e9ada-6dcc-458a-9cdf-e325771b4051"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado Requisito]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="80" y="6" width="268" height="17" backcolor="#D7D9DB" uuid="9841f9ed-7977-41ef-8571-c5bbcb12f4b6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3d4e9ada-6dcc-458a-9cdf-e325771b4050"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="-1" width="80" height="19" uuid="596fe216-fd5a-47a8-867e-fe3f91721351">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3d4e9ada-6dcc-458a-9cdf-e325771b4051"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idRequisito}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="349" y="-1" width="96" height="19" uuid="596fe216-fd5a-47a8-867e-fe3f91721351">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3d4e9ada-6dcc-458a-9cdf-e325771b4051"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{formato}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="445" y="-1" width="98" height="19" uuid="ea756e48-c133-4f05-b778-789bfd3fb26e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3d4e9ada-6dcc-458a-9cdf-e325771b4050"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="80" y="-1" width="268" height="19" uuid="596fe216-fd5a-47a8-867e-fe3f91721351">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3d4e9ada-6dcc-458a-9cdf-e325771b4051"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="81" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="32" width="556" height="30" backcolor="#E6E8E9" uuid="81274d96-9bee-4d68-b4c1-58e33269ee56"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Universidad Nacional Mayor de San Marcos
+Av. Universitaria /Calle Germán Amézaga 375. Edificio Jorge Basadre Ciudad Universitaria, Lima 1.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="256" y="5" width="176" height="20" uuid="1f36e6d6-9873-4c90-acbe-e54d6b343d21"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Generación:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="437" y="6" width="108" height="20" uuid="2566a2d5-8a19-43eb-b01a-e43369620f1e"/>
+				<textFieldExpression><![CDATA[$P{fechaGeneracion}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="28" width="556" height="1" uuid="b4bea201-4971-4f43-882f-3829f7833f51">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.MultitabCabMapper">
+
+    <sql id="fragmentoSelectMultitabCab">
+        SELECT 
+        	   id_tabla      	AS idMultitabCab
+             , nombre      		AS nombre
+             , descripcion      AS descripcion
+             
+        FROM vw_man_multitab_cab
+    </sql>
+
+
+	<select id="buscarTodos" resultType="MultitabCabResponse">
+		<include refid="fragmentoSelectMultitabCab" />
+	</select>
+
+	<select id="buscarPorIdMultitabCab" resultType="MultitabCabResponse">
+		<include refid="fragmentoSelectMultitabCab" />
+			<where>
+				<if test="idMultitabCab != '' and idMultitabCab != null">
+					id_tabla = #{idMultitabCab}
+				</if>
+			</where>
+	</select>
+
+
+
+
+    <select id="mantener"  statementType="CALLABLE">
+        {
+            CALL PKG_MANTENIMIENTOS.PRC_MAN_MULTITAB_CAB(
+                #{modo, 							  		  jdbcType=VARCHAR, mode=IN},
+                #{objetoMantenido.idMultitabCab, 	          jdbcType=INTEGER, mode=INOUT},
+                #{objetoMantenido.nombre,     				  jdbcType=VARCHAR, mode=IN},
+                #{objetoMantenido.descripcion,     			  jdbcType=VARCHAR, mode=IN},
+                #{usuario, 						      		  jdbcType=VARCHAR, mode=IN}
+            )
+        }
+    </select>
+
+</mapper>

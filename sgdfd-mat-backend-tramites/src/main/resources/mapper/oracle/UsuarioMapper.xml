@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.tramites.mapper.UsuarioMapper">
+	 
+	<sql id="fragmentoSelectUsuario">
+		SELECT       vwmu.codigo_alumno                as codigoAlumno
+		           , vwmu.id_usuario                   as idUsuario
+		           , vwmu.id_perfil                    as idPerfil
+		           , vwmu.nombre_perfil                as nombrePerfil
+		           , vwmu.contrasenia                  as contrasenia
+		           , vwmu.sexo						   as sexo
+		           , vwmu.nombres 					   as nombre
+		           , vwmu.apellido_paterno 			   as apellidoPaterno
+		           , vwmu.apellido_materno 			   as apellidoMaterno
+		           , vwmu.codigo_facultad 			   as idFacultad
+		           , vwmu.codigo_escuela	 		   as idEscuela
+		           , vwmu.codigo_plan		 		   as codigoPlan
+      	FROM VW_CON_USUARIO vwmu   		
+	</sql>
+	
+	<select id="buscarPorCriterio" resultType="UsuarioResponse">
+		<include refid="fragmentoSelectUsuario" />
+		<where>
+		<if test="codigoAlumno != '' and codigoAlumno != null">
+			vwmu.codigo_alumno = #{codigoAlumno}
+		</if>
+		<if test="idUsuario != '' and idUsuario != null">
+			OR vwmu.id_usuario = #{idUsuario}
+		</if>	
+		</where>
+	</select>
+	
+</mapper>
+
+	
+

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.tramites.mapper.SolicitudTramiteSeguimientoMapper">
+	
+	<sql id="fragementoSolicitudTramiteNotificacion">
+		SELECT	vwcstsn.id_tramite_seguimiento		as idTramiteSeguimiento
+			  ,	vwcstsn.id_solicitud_tramite		as idSolicitudTramite
+			  ,	vwcstsn.fecha_solicitud				as fechaSolicitud
+			  ,	vwcstsn.asunto						as asunto
+			  , vwcstsn.codigo_local				as codigoLocal
+			  , vwcstsn.local_nombre				as localNombre
+			  , vwcstsn.id_tipo_tramite				as idTipoTramite
+			  , vwcstsn.tipo_tramite_nombre			as tipoTramiteNombre
+			  , vwcstsn.estado_tramite				as estadoTramite
+			  , vwcstsn.estado_nombre				as estadoNombre
+			  , vwcstsn.fecha_registro_estado		as fechaRegistroEstado
+			  , vwcstsn.numero_documento_identidad	as numeroDocumento
+			  , vwcstsn.estado_notif_leido			as estadoNotifLeido
+			  
+		FROM VW_CON_SOL_TRA_SEGUIM_NOTIF vwcstsn		
+	</sql>
+	
+	<sql id="fragmentoSolicitudTramiteSeguimiento">
+		SELECT	vtsts.id_tramite_seguimiento		as idTramiteSeguimiento
+			  ,	vtsts.id_solicitud_tramite			as idSolicitudTramite
+			  ,	vtsts.fecha_solicitud				as fechaSolicitud
+			  ,	vtsts.asunto						as asunto
+			  , vtsts.codigo_local					as codigoLocal
+			  , vtsts.local_nombre					as localNombre
+			  , vtsts.id_tipo_tramite				as idTipoTramite
+			  , vtsts.tipo_tramite_nombre			as tipoTramiteNombre
+			  , vtsts.estado_tramite				as estadoTramite
+			  , vtsts.estado_nombre					as estadoNombre
+			  , vtsts.fecha_registro_estado_ext		as fechaRegistroEstadoExt
+			  , vtsts.fecha_registro_estado			as fechaRegistroEstado
+			  , vtsts.numero_documento_identidad	as numeroDocumento
+			  
+		FROM VW_TRA_SOLICITUD_TRA_SEGUI vtsts		
+	</sql>
+	
+	<!-- Notificaciones -->
+	<select id = "notificacionTramiteDerivadoObservado" resultType="SolicitudTramiteSegNotifResponse">
+		<include refid ="fragementoSolicitudTramiteNotificacion" />
+			<where>
+				<if test="numeroDocumento != '' and numeroDocumento != null">
+					AND vwcstsn.numero_documento_identidad = #{numeroDocumento}
+				</if>
+			</where>
+			ORDER BY vwcstsn.fecha_registro_estado DESC 
+	</select>
+	
+	<select id = "obtenerSeguimiento" resultType="SolicitudTramiteSegNotifResponse">
+		<include refid ="fragementoSolicitudTramiteNotificacion" />
+			<where>
+				vwcstsn.id_tramite_seguimiento = #{idTramiteSeguimiento}
+			</where>
+	</select>
+	
+	<update id="actualizarEstadoNotificacion">
+		update MOV_SOL_TRAMITE_SEGUIMIENTO set
+			estado_notif_leido = #{estadoNotifLeido}
+		where id_tramite_seguimiento = #{idTramiteSeguimiento}
+	</update>
+	<!-- End Notificaciones -->
+	
+	<!-- Seguimiento -->
+	<select id = "seguimientoSolicitudCompleto" resultType="SolicitudTramiteSegNotifResponse">
+		<include refid ="fragmentoSolicitudTramiteSeguimiento" />
+			<where>
+				vtsts.id_solicitud_tramite = #{idSolicitudTramite}
+			</where>
+			ORDER BY vtsts.fecha_registro_estado ASC
+	</select>
+	<!-- End Seguimiento -->
+
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.EmpleadoMapper">
+	
+	
+	<sql id="fragmentoSelectEmpleado">
+        SELECT   		  vwmtt.codigo_empleado 	AS codigoEmpleado
+						, vwmtt.apellido_paterno    AS apellidoPaterno
+						, vwmtt.apellido_materno 	AS apellidoMaterno
+						, vwmtt.nombres			    AS nombres
+						, vwmtt.sexo 				AS sexo
+						, vwmtt.numero_dni		    AS numeroDni
+						, vwmtt.estado 				AS estado
+						, vwmtt.estado_descripcion 	AS descripcionEstado
+						, vwmtt.fecha_baja 			AS fechaBaja
+						, vwmtt.codigo_cargo 		AS codigoCargo
+						, vwmtt.descripcion_cargo 	AS descripcionCargo
+						, vwmtt.nombre_completo		AS nombreCompleto
+    	FROM VW_MAN_EMPLEADO vwmtt
+	</sql>
+	
+	<sql id="fragmentoSelectEmpleado2">
+        SELECT   		  vwmtt.codigo_empleado 	AS codigoEmpleado
+						, vwmtt.codigo_dependencia  AS codigoDependencia
+						, vwmtt.titulo_dependencia  AS tituloDependencia
+						, vwmtt.codigo_local		AS codigoLocal
+						, vwmtt.codigo_local_sgd	AS codigoLocalSgd
+						, vwmtt.nombre_local		AS nombreLocal
+						, vwmtt.apellido_paterno    AS apellidoPaterno
+						, vwmtt.apellido_materno 	AS apellidoMaterno
+						, vwmtt.nombres			    AS nombres
+						, vwmtt.nombre_completo		AS nombreCompleto
+						, vwmtt.sexo 				AS sexo
+						, vwmtt.numero_dni		    AS numeroDni
+						, vwmtt.estado 				AS estado
+						, vwmtt.fecha_baja 			AS fechaBaja
+						, vwmtt.codigo_cargo 		AS codigoCargo
+    	FROM VW_CON_EMPLEADO_DEPEND_LOCAL vwmtt
+	</sql>
+	
+	
+	<select id="buscarTodos" resultType="EmpleadoResponse">
+		<include refid="fragmentoSelectEmpleado" />
+	</select>
+	
+	<select id="buscarPorNumeroDni" resultType="EmpleadoDepLocalResponse">
+		<include refid="fragmentoSelectEmpleado2"/>
+		<where>
+		<if test="numeroDni != '' and numeroDni != null">
+			numero_dni  = #{numeroDni}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorCodigoEmpleado" resultType="EmpleadoResponse">
+		<include refid="fragmentoSelectEmpleado"/>
+		<where>
+		<if test="codigoEmpleado != '' and codigoEmpleado != null">
+			codigo_empleado  = #{codigoEmpleado}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorCodigoDependencia" resultType="EmpleadoResponse">
+		<include refid="fragmentoSelectEmpleado2"/>
+		<where>
+		<if test="codigoDependencia != '' and codigoDependencia != null">
+			codigo_dependencia  = #{codigoDependencia}
+			AND estado_empleado = '1'
+		</if>
+		</where>
+	</select>
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_EMPLEADO (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoEmpleado,			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.apellidoPaterno,       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.apellidoMaterno,       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.nombres,					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.sexo,       				jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.numeroDni,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.estado,       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.fechaBaja,				jdbcType = DATE, 	mode = IN},
+             #{objetoMantenido.codigoCargo,       		jdbcType = VARCHAR, mode = IN},
+			 #{objetoMantenido.usuario,                 jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+	
+	
+</mapper>	

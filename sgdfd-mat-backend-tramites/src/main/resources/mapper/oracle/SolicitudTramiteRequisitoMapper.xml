@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.tramites.mapper.SolicitudTramiteRequisitoMapper">
+
+	<sql id="fragmentoSelectSolicitudTramiteRequisito">
+        SELECT    vwdst.id_tipo_tramite		 	AS	 idTipoTramite
+				, vwdst.id_requisito			AS	 idRequisito
+				, vwdst.id_solicitud_tramite	AS	 idSolicitudTramite
+				, vwdst.id_item					AS   idItem
+				, vwdst.archivo_adjunto			AS	 archivoAdjunto
+				, vwdst.valor					AS	 valor
+				, vwdst.estado					AS	 estadoRequisito
+				, vwdst.descripcion_estado      AS   descripcionEstadoRequisito
+				, vwdst.estado_solicitud        AS   estadoSolicitud
+				, vwdst.descripcion_estado_solicitud AS descripcionEstadoSolicitud 
+				, vwdst.nombre_requisito		AS	 nombreRequisito
+<!-- 				, vwdst.url_archivo				AS	 urlArchivo -->
+<!-- 				, vwdst.url_archivo_firmado		AS	 urlArchivoFirmado -->
+<!-- 				, vwdst.usuario_adicion			AS	 usuarioAdicion -->
+    	FROM VW_TRA_SOL_TRAMITE_REQUISITO vwdst
+	</sql>
+
+	<select id="buscarTodos" resultType="SolicitudTramiteRequisitoResponse">
+		<include refid="fragmentoSelectSolicitudTramiteRequisito" />
+	</select>
+	
+	<select id="buscarPorId" resultType="SolicitudTramiteRequisitoResponse">
+		<include refid="fragmentoSelectSolicitudTramiteRequisito" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null 
+				and idRequisito != '' and idTipoTramite != null 
+				and idSolicitudTramite != '' and idSolicitudTramite != null
+				and idItem != '' and idItem != null">
+			id_tipo_tramite = #{idTipoTramite}
+			AND id_requisito = #{idRequisito}
+			AND id_solicitud_tramite = #{idSolicitudTramite}
+			AND id_item = #{idItem}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorCriterio" resultType="SolicitudTramiteRequisitoResponse">
+		<include refid="fragmentoSelectSolicitudTramiteRequisito" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null 
+				and idRequisito != '' and idTipoTramite != null 
+				and idSolicitudTramite != '' and idSolicitudTramite != null">
+			id_tipo_tramite = #{idTipoTramite}
+			id_requisito = #{idRequisito}
+			id_solicitud_tramite = #{idSolicitudTramite}
+		</if>
+		</where>
+	</select>
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_TRAMITES.PRC_PRO_SOL_TRAMITE_REQUISITO (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idSolicitudTramite,		jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.idTipoTramite,			jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.idRequisito,				jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.idItem,					jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.archivoAdjunto,  		jdbcType = BLOB	  , mode = IN},
+             #{objetoMantenido.valor	,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.estado	,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.observacion,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.descripcionSeguimiento,	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.indicadorSgd,			jdbcType = VARCHAR, mode = IN},
+<!--              #{objetoMantenido.urlArchivo,				jdbcType = DATE, mode = IN}, -->
+<!--              #{objetoMantenido.urlArchivoFirmado,		jdbcType = DATE, mode = IN}, -->
+			 #{objetoMantenido.numeroDocumento, 		jdbcType = VARCHAR, mode = IN}, 
+			 #{objetoMantenido.asunto,			 		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.tipoDocumento,	 		jdbcType = VARCHAR, mode = IN},            
+			 #{usuario,                   				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+</mapper>
+
+	
+

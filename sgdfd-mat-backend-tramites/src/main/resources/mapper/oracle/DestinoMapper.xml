@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.tramites.mapper.DestinoMapper">
+	 
+	<sql id="fragmentoSelectDestino">
+		SELECT       vwmu.id_item              as idItem
+		           , vwmu.anio              	as anio
+		           , vwmu.numero_emision       as numeroEmision	
+		           , vwmu.codigo_dependencia	as codigoDependencia
+		           , vwmu.codigo_empleado		as codigoEmpleado
+		           , vwmu.codigo_prioridad		as codigoPrioridad
+		           , vwmu.fecha_derivacion		as fechaDerivacion
+				   , vwmu.estado	            as estado
+		  
+      	FROM VW_MOV_DESTINO vwmu   		
+	</sql>
+	
+<!-- 	<select id="buscarPor" resultType="Destino"> -->
+<!-- 		<include refid="fragmentoSelectDestino" /> -->
+<!-- 		<where> -->
+<!-- 		<if test="idItem != '' and idItem != null"> -->
+<!-- 			vwmu.id_item = #{idItem} -->
+<!-- 		</if> -->
+<!-- 		<if test="idAnio != '' and idAnio != null"> -->
+<!-- 			AND vwmu.id_anio = #{idAnio} -->
+<!-- 		</if> -->
+<!-- 		<if test="numeroEmision != '' and numeroEmision != null"> -->
+<!-- 			AND vwmu.numero_emision = #{numeroEmision} -->
+<!-- 		</if>	 -->
+<!-- 		</where> -->
+<!-- 	</select> -->
+	
+	<select id="buscarTodos" resultType="DestinoResponse">
+		<include refid="fragmentoSelectDestino" />
+	</select>
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MOV.PRC_MOV_DESTINO (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idItem,					jdbcType = VARCHAR, mode = INOUT},
+             #{objetoMantenido.anio,			       	jdbcType = VARCHAR  , mode = IN},
+             #{objetoMantenido.numeroEmision,       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.estado,       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoDependencia,       jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoEmpleado,       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoPrioridad,       	jdbcType = VARCHAR, mode = IN},
+ 			 #{usuario,                   				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+	
+</mapper>

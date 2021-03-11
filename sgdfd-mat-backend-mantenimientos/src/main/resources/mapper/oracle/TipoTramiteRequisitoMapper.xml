@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.TipoTramiteRequisitoMapper">
+
+	<sql id="fragmentoSelectTipoTramiteRequisito">
+        SELECT    vwmtr.id_tipo_tramite		AS	 idTipoTramite
+				, vwmtr.nombre_tipo_tramite		AS	 nombreTipoTramite
+				, vwmtr.id_requisito		AS	 idRequisito
+				, vwmtr.nombre_requisito		AS	 nombreRequisito
+				, vwmtr.estado				AS	 estado
+				, vwmtr.numero_orden 		AS 	 numeroOrden
+    	FROM VW_MAN_TIPO_TRAMITE_REQUISITO vwmtr
+	</sql>
+
+	<select id="buscarTodos" resultType="TipoTramiteRequisitoResponse">
+		<include refid="fragmentoSelectTipoTramiteRequisito" />
+	</select>
+	
+	<select id="buscarPorId" resultType="TipoTramiteRequisitoResponse">
+		<include refid="fragmentoSelectTipoTramiteRequisito" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			id_tipo_tramite = #{idTipoTramite}
+		</if>
+		<if test="idRequisito != '' and idRequisito != null">
+			AND id_requisito = #{idRequisito}
+		</if>
+		</where>
+	</select>
+	
+	
+	<select id="buscarPorTipoTramite" resultType="TipoTramiteRequisitoResponse">
+		<include refid="fragmentoSelectTipoTramiteRequisito" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			id_tipo_tramite = #{idTipoTramite}
+		</if>
+		</where>
+	</select>
+	
+	
+	<select id="buscarPorCriterio" resultType="TipoTramiteRequisitoResponse">
+		<include refid="fragmentoSelectTipoTramiteRequisito" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			id_tipo_tramite = #{idTipoTramite}
+		</if>
+		<if test="idRequisito != '' and idRequisito != null">
+			AND id_requisito = #{idRequisito}
+		</if>
+		</where>
+	</select>
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_TIPO_TRAMITE_REQUISITO (
+		     #{modo,             			      	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idTipoTramite,		jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.idRequisito,     	jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.estado,       		jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.numeroOrden,   		jdbcType = INTEGER, mode = IN},
+			 #{usuario,                   			jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+</mapper>
+
+	
+

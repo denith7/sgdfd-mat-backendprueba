@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.PersonaMapper">
+
+
+	<sql id="fragmentoSelectPersona">
+		SELECT
+			vmp.ANIO_CICLO_ESTUDIO AS anioCicloEstudio,
+			vmp.ANIO_INGRESO AS anioIngreso,
+			vmp.APELLIDO_PATERNO AS apellidoPaterno,
+			vmp.APELLIDO_MATERNO AS apellidoMaterno,
+			vmp.NOMBRES AS nombres,
+			vmp.CODIGO_ALUMNO as codigoAlumno,
+			vmp.CODIGO_ESCUELA AS codigoEscuela,
+			vmp.ESCUELA_PROFESIONAL AS codigoEspecialidad,
+			vmp.CODIGO_FACULTAD AS codigoFacultad,
+			vmp.CODIGO_PLAN AS codigoPlan,
+			vmp.CORREO_INSTITUCIONAL AS correoInstitucional,
+			vmp.CORREO_PERSONAL AS correoPersonal,
+			vmp.DIRECCION_DOMICILIO AS direccionDomicilio,
+			vmp.ESCUELA_PROFESIONAL AS escuelaProfesional,
+			vmp.ESCUELA_PROFESIONAL_MAYUS AS escuelaProfesionalMayus,
+			vmp.ESCUELA_PROFESIONAL_COMPLETA AS escuelaProfesionalCompleta,
+			vmp.EP_COMPLETA_MAYUS AS epCompletaMayus,
+			vmp.ESPECIALIDAD AS especialidad,
+			vmp.ESTADO_CIVIL AS estadoCivil,
+			vmp.ESTADO_PERMANENCIA AS estadoPermanencia,
+			vmp.FECHA_NACIMIENTO AS fechaNacimiento,
+			vmp.MODALIDAD_INGRESO AS modalidadIngreso,
+			vmp.NUMERO_CELULAR AS numeroCelular,
+			vmp.NUMERO_DOCUMENTO AS numeroDocumento,
+			vmp.NUMERO_TELEFONO AS numeroTelefono,
+			vmp.PLAN_DESC AS plan,
+			vmp.PROMEDIO_PONDERADO AS promedioPonderado,
+			vmp.PROMEDIO_ULTIMA_MATRICULA AS promedioUltimaMatricula,
+			vmp.SEXO AS sexo,
+			vmp.SITUACION_ACADEMICA AS situacionAcademica,
+			vmp.TIPO_DOCUMENTO_ID AS tipoDocumento,
+			vmp.UBIGEO_INEI AS ubigeo,
+			vmp.ULTIMA_MATRICULA AS ultimaMatricula,
+			vmp.FACULTAD as facultad,
+			vmp.DEPARTAMENTO_ACADEMICO as departamentoAcademico,
+			vmp.ID_PERFIL as idPerfil,
+			vmp.DESCRIPCION_PERFIL as descripcionPerfil
+			FROM VW_MAN_PERSONA vmp
+	</sql>
+
+	<select id="buscarPorCodigoPersona" resultType="PersonaResponse">
+		<include refid="fragmentoSelectPersona" />
+		<where>
+			vmp.CODIGO_ALUMNO = #{codigoAlumno}
+		</where>
+	</select>
+	
+	<select id="buscarPorNumeroDocumento" resultType="PersonaResponse">
+		<include refid="fragmentoSelectPersona" />
+		<where>
+			vmp.NUMERO_DOCUMENTO = #{numeroDocumento}
+		</where>
+	</select>
+	
+	<select id="filtrarPersonas" resultType="PersonaResponse">
+		<include refid="fragmentoSelectPersona" />
+		<where>
+				<!-- fijate el where y and aca, posible problema -->
+			<if test="nombres != '' and nombres != null"> 
+		 		REGEXP_LIKE ( UPPER ( TRIM(vmp.nombres) ) , UPPER ( #{nombres} ))
+			</if>
+			
+			<if test="apellidoPaterno != '' and apellidoPaterno != null "> 
+				AND REGEXP_LIKE ( UPPER ( TRIM(vmp.apellido_paterno) ) , UPPER ( #{apellidoPaterno} ))	
+			</if>		
+				
+			<if test="apellidoMaterno != '' and apellidoMaterno != null "> 
+				AND REGEXP_LIKE ( UPPER ( TRIM(vmp.apellido_materno) ) , UPPER ( #{apellidoMaterno} ))
+			</if>
+		
+			<if test="numeroDocumento != null and numeroDocumento !='' ">
+				AND TRIM(vmp.numero_documento) = #{numeroDocumento}
+			</if>
+		
+			<if test="codigoEscuela != '' and codigoEscuela != null">
+				AND TRIM(vmp.codigo_escuela) = #{codigoEscuela}
+			</if>
+			
+			<if test="codigoFacultad != '' and codigoFacultad != null">
+				AND TRIM(vmp.codigo_facultad) = #{codigoFacultad}
+			</if>
+			
+			<if test="codigoAlumno != '' and codigoAlumno != null">
+				AND TRIM(vmp.codigo_alumno) = #{codigoAlumno}
+			</if>
+			
+			<if test="codigoPlan != '' and codigoPlan != null">
+				AND TRIM(vmp.codigo_plan) = #{codigoPlan}
+			</if>
+		</where>
+	</select>
+
+
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.EstadoMapper">
+
+	<sql id="fragmentoSelectEstadosConsulta">
+        SELECT    tabla_origen	AS	 tablaOrigen
+				, codigo_estado AS	 codigoEstado
+				, nombre		AS	 nombreEstado
+				, descripcion	AS	 descripcionEstado
+    	FROM VW_CON_ESTADOS 
+	</sql>
+
+
+	<select id="buscarTodos" resultType="EstadoResponse">
+		<include refid="fragmentoSelectEstadosConsulta" />
+	</select>
+	
+	<select id="buscarPorTablaOrigen" resultType="EstadoResponse">
+		<include refid="fragmentoSelectEstadosConsulta" />
+			<where>
+				<if test="tablaOrigen != '' and tablaOrigen != null">
+					tabla_origen = #{tablaOrigen}
+				</if>
+			</where>
+	</select>
+	
+	<select id="buscarPorTablaOrigenYCodigoEstado" resultType="EstadoResponse">
+		<include refid="fragmentoSelectEstadosConsulta" />
+			<where>
+				<if test="tablaOrigen != '' and tablaOrigen != null">
+					tabla_origen = #{tablaOrigen}
+				</if>
+				<if test="codigoEstado != '' and codigoEstado != null">
+					AND codigo_estado = #{codigoEstado}
+				</if>
+			</where>
+	</select>
+		
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_ESTADO (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.tablaOrigen,				jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoEstado,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.nombreEstado,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.descripcionEstado,		jdbcType = VARCHAR, mode = IN},
+			 #{usuario,                   				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+</mapper>
+
+	
+

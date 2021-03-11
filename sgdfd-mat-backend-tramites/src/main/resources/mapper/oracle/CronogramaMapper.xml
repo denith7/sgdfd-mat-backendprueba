@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.tramites.mapper.CronogramaMapper">
+	 
+	<sql id="fragmentoSelectCronograma">
+		SELECT       vwmu.id_tipo_tramite              as idTipoTramite
+		           , vwmu.id_item                	   as idItem
+		           , vwmu.periodo                	   as periodo	
+		           , vwmu.descripcion	               as descripcion
+		           , vwmu.codigo_local				   as codigoLocal
+
+		  
+      	FROM VW_CON_CRONOGRAMA vwmu   		
+	</sql>
+	
+	<select id="buscarPorIdTipoTramite" resultType="CronogramaResponse">
+		<include refid="fragmentoSelectCronograma" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			vwmu.id_tipo_tramite = #{idTipoTramite}
+		</if>	
+		</where>
+	</select>
+	
+	<select id="buscarPorIdTipoTramiteYCodigoLocal" resultType="CronogramaResponse">
+		<include refid="fragmentoSelectCronograma" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			vwmu.id_tipo_tramite = #{idTipoTramite}
+		</if>	
+		<if test="codigoLocal != '' and codigoLocal != null">
+			AND vwmu.codigo_local = #{codigoLocal}
+		</if>	
+		</where>
+	</select>
+	
+</mapper>

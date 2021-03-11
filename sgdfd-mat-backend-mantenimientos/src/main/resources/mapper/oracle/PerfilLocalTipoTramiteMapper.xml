@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.PerfilLocalTipoTramiteMapper">
+
+	<sql id="fragmentoSelectPerfilLocalTipoTramite">
+        SELECT    vwdst.id_perfil	 			AS	 idPerfil
+				, vwdst.codigo_local			AS	 codigoLocal
+				, vwdst.id_tipo_tramite			AS	 idTipoTramite
+				, vwdst.nombre_perfil			AS	 nombrePerfil
+				, vwdst.nombre_local			AS	 nombreLocal
+				, vwdst.nombre_tipo_tramite		AS	 nombreTipoTramite
+
+
+    	FROM VW_MAN_PERFIL_LOCAL_TRAMITE vwdst
+	</sql>
+
+	<select id="buscarTodos" resultType="PerfilLocalTipoTramiteResponse">
+		<include refid="fragmentoSelectPerfilLocalTipoTramite" />
+	</select>
+		
+	<select id="buscarPorId" resultType="PerfilLocalTipoTramiteResponse">
+		<include refid="fragmentoSelectPerfilLocalTipoTramite" />
+		<where>
+		<if test="idPerfil != '' and idPerfil != null 
+				and codigoLocal != '' and codigoLocal != null 
+				and idTipoTramite != '' and idTipoTramite != null">
+			id_perfil = #{idPerfil}
+			AND codigo_local = #{codigoLocal}
+			AND id_tipo_tramite = #{idTipoTramite}
+		</if>
+		</where>
+	</select>
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_PERFIL_LOCAL_TIPO_TRA (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idPerfil,				jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.codigoLocal,				jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idTipoTramite,			jdbcType = INTEGER, mode = IN},
+			 #{usuario,                   				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+</mapper>
+
+	
+

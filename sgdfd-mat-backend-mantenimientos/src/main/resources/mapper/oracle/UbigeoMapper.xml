@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.UbigeoMapper">
+
+
+	<sql id="fragmentoSelectUbigeo">
+        SELECT    codigo_ubigeo		 	AS	 codigoUbigeo
+				, codigo_departamento	AS	 codigoDepartamento
+				, codigo_provincia		AS	 codigoProvincia
+				, codigo_distrito	 	AS	 codigoDistrito
+				, nombre    			AS   nombre
+    	FROM VW_MAN_UBIGEO 
+	</sql>
+
+	
+	<select id="buscarTodos" resultType="UbigeoResponse">
+		<include refid="fragmentoSelectUbigeo" />
+	</select>
+	
+	<select id="buscarTodosPorDepartamentos" resultType="UbigeoResponse">
+		<include refid="fragmentoSelectUbigeo" />
+			<where>
+					TRIM(codigo_provincia) = '00'
+				AND TRIM(codigo_distrito) = '00'
+			</where>		
+	</select>
+	
+	<select id="obtenerProvincias" resultType="UbigeoResponse">
+		<include refid="fragmentoSelectUbigeo" />
+			<where>
+					TRIM(codigo_departamento) = ${codigoDepartamento} 
+				AND TRIM(codigo_provincia) != '00' 
+				AND TRIM(codigo_distrito) = '00' 									
+			</where>									
+	</select>
+	
+		<select id="obtenerDistritos" resultType="UbigeoResponse">
+		<include refid="fragmentoSelectUbigeo" />
+			<where>
+					TRIM(codigo_departamento) = ${codigoDepartamento}
+				AND TRIM(codigo_provincia) = ${codigoProvincia}
+				AND TRIM(codigo_distrito) != '00' 								
+			</where>									
+	</select>
+
+
+	<select id="buscarPorCodigoUbigeo" resultType="UbigeoResponse">
+		<include refid="fragmentoSelectUbigeo"/>
+			<where>
+				<if test="codigoUbigeo != '' and codigoUbigeo != null">
+						codigo_ubigeo  = #{codigoUbigeo}
+				</if>
+			</where>
+	</select>
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_UBIGEO (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoUbigeo,			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoDepartamento,      jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoProvincia,       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoDistrito,      	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.nombre,       			jdbcType = VARCHAR, mode = IN},
+			 #{usuario,				                    jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+</mapper>
+
+	
+

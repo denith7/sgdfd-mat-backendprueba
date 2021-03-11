@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.tramites.mapper.ReporteMapper"> 
+	
+	<resultMap type="RptTiempoAtencionResponse" id="mapReporteAtencion">
+  		<id property="codigoLocal" column="codigoLocal"></id>
+		<id property="nombreLocal" column="nombreLocal"></id>
+	  	<id property="diasRecepcionMaximo" column="diasRecepcionMaximo"></id>
+	  	<id property="diasRecepcionMinimo" column="diasRecepcionMinimo"></id>
+	  	<id property="diasRecepcionPromedio" column="diasRecepcionPromedio"></id>
+	</resultMap>
+	
+	<resultMap type="RptSolicitudesPorEstadosResponse" id="mapReporteSolicitudesPorEstados">
+  		<id property="codigoLocal" column="codigoLocal"></id>
+		<id property="nombreLocal" column="nombreLocal"></id>
+	  	<id property="solicitudesPorAtender" column="solicitudesPorAtender"></id>
+	  	<id property="solicitudesObservadas" column="solicitudesObservadas"></id>
+	  	<id property="solicitudesDerivadas"  column="solicitudesDerivadas"></id>
+	</resultMap>
+	
+	<resultMap type="FrecuenciaTramitesDerivadosResponse" id="mapFrecuenciaTramitesDerivados">
+  		<id property="idTipoTramite" column="idTipoTramite"></id>
+		<id property="nombreTipoTramite" column="nombreTipoTramite"></id>
+	  	<id property="cantidadSolicitudes" column="cantidadSolicitudes"></id>
+	</resultMap>
+	
+	<select id = "tiempoAtencionFiltrado" resultMap ="mapReporteAtencion">
+
+		SELECT 
+			vwcddr.CODIGO_LOCAL AS codigoLocal,
+    		vwcddr.NOMBRE_LOCAL	AS	nombreLocal,
+    		ROUND (AVG (NVL (vwcddr.fecha_aprobacion, SYSDATE) - vwcddr.fecha_solicitud),2) AS diasRecepcionPromedio,
+    		ROUND (MIN (NVL (vwcddr.fecha_aprobacion, SYSDATE) - vwcddr.fecha_solicitud), 2) AS diasRecepcionMinimo,
+            ROUND (MAX (NVL (vwcddr.fecha_aprobacion, SYSDATE) - vwcddr.fecha_solicitud), 2) AS diasRecepcionMaximo
+
+			FROM VW_RPT_TIEMPO_ATENCION vwcddr
+			
+			<where>
+				<if test="fechaInicio != null and fechaFin != null">
+		 			vwcddr.FECHA_APROBACION BETWEEN #{fechaInicio}  AND ( #{fechaFin}  +1)
+				</if> 
+				
+				<if test="codigoLocal != '' and codigoLocal != null "> 
+					AND TRIM(vwcddr.CODIGO_LOCAL) = #{codigoLocal} 			
+				</if>	
+				
+			</where>
+			
+			GROUP BY vwcddr.CODIGO_LOCAL, vwcddr.NOMBRE_LOCAL
+			ORDER BY TO_NUMBER(vwcddr.CODIGO_LOCAL) DESC
+			
+	</select>
+	
+	<select id = "solicitudesPorEstadosFiltrado" resultMap ="mapReporteSolicitudesPorEstados">
+
+		SELECT 
+			vwcddr.CODIGO_LOCAL AS codigoLocal,
+    		vwcddr.NOMBRE_LOCAL	AS	nombreLocal,
+    		SUM(CASE WHEN vwcddr.estado = '1' then 1 else 0 end) AS solicitudesPorAtender,
+    		SUM(CASE WHEN vwcddr.estado = '4' then 1 else 0 end) AS solicitudesObservadas,
+            SUM(CASE WHEN vwcddr.estado = '6' then 1 else 0 end) AS solicitudesDerivadas
+
+			FROM VW_RPT_SOLICITUDES_POR_ESTADO vwcddr 
+			
+			<where>
+				<if test="fechaInicio != null and fechaFin != null">
+		 			vwcddr.FECHA_SOLICITUD BETWEEN #{fechaInicio} AND ( #{fechaFin}  +1)
+				</if> 
+				
+				<if test="codigoLocal != '' and codigoLocal != null "> 
+					AND TRIM(vwcddr.CODIGO_LOCAL) = #{codigoLocal} 			
+				</if>	
+				
+			</where>
+			
+			GROUP BY vwcddr.CODIGO_LOCAL, vwcddr.NOMBRE_LOCAL
+			ORDER BY TO_NUMBER(vwcddr.CODIGO_LOCAL) DESC
+			
+	</select>
+	
+	<select id = "frecuenciaTramitesDerivadosFiltrado" resultMap ="mapFrecuenciaTramitesDerivados">
+
+		SELECT 
+			vwcddr.ID_TIPO_TRAMITE AS idTipoTramite,
+    		vwcddr.NOMBRE_TIPO_TRAMITE	AS	nombreTipoTramite,
+    		SUM(CASE WHEN vwcddr.estado = '6' then 1 else 0 end) AS cantidadSolicitudes
+
+			FROM VW_RPT_FRECUENCIA_TIPO_TRAMITE vwcddr 
+			
+			<where>
+				TRIM(vwcddr.estado) = '6'	
+			
+				<if test="fechaInicio != null and fechaFin != null">
+		 			AND vwcddr.FECHA_SOLICITUD BETWEEN #{fechaInicio}  AND ( #{fechaFin}  +1)
+				</if> 
+				
+				<if test="codigoLocal != '' and codigoLocal != null "> 
+					AND TRIM(vwcddr.CODIGO_LOCAL) = #{codigoLocal} 			
+				</if>	
+
+			</where>
+			
+			GROUP BY vwcddr.ID_TIPO_TRAMITE, vwcddr.NOMBRE_TIPO_TRAMITE
+			ORDER BY TO_NUMBER(vwcddr.ID_TIPO_TRAMITE) DESC
+			
+	</select>
+	
+	<select id = "rankingTipoTramiteFiltrado" resultType ="RankingTipoTramiteResponse">
+
+		 
+			
+			
+			<if test="idTipoTramite != '' and idTipoTramite != null "> 
+			SELECT
+				vwcddr.PERIODO AS periodo,
+				vwcddr.PERIODO_DESCRIPTIVO AS periodoDescriptivo,
+				vwcddr.ANIO AS anio,
+	    		vwcddr.SOLICITUDES_DERIVADAS	AS	solicitudesDerivadas,
+	    		vwcddr.SOLICITUDES_PRESENTADAS	AS	solicitudesPresentadas
+	    	
+	    	FROM VW_RPT_RANKING_TIPO_TRAMITE vwcddr 
+	    		
+					<where>
+						<if test="codigoLocal != '' and codigoLocal != null "> 
+							TRIM(vwcddr.CODIGO_LOCAL) = #{codigoLocal} 			
+						</if>
+						<if test="anioInicio != null and anioFin != null and mesInicio != null and mesFin != null"> 
+							AND vwcddr.inicio_solicitud BETWEEN TO_DATE('01/' || TO_CHAR(#{mesInicio}) ||'/' || TO_CHAR(#{anioInicio}),'DD/MM/YYYY') AND LAST_DAY(TO_DATE('01/' || TO_CHAR(#{mesFin}) || '/' || TO_CHAR(#{anioFin}),'DD/MM/YYYY'))
+				
+						</if>	
+					</where>
+					AND TRIM(vwcddr.ID_TIPO_TRAMITE) = #{idTipoTramite}
+			</if>
+			<if test="idTipoTramite == '' or idTipoTramite == null "> 
+			SELECT
+				vwcddr.PERIODO AS periodo,
+				vwcddr.PERIODO_DESCRIPTIVO AS periodoDescriptivo,
+				vwcddr.inicio_solicitud as inicio_solicitud,
+				vwcddr.ANIO AS anio,
+	    		SUM(vwcddr.SOLICITUDES_DERIVADAS)	AS	solicitudesDerivadas,
+	    		SUM(vwcddr.SOLICITUDES_PRESENTADAS)	AS	solicitudesPresentadas
+	
+				FROM VW_RPT_RANKING_TIPO_TRAMITE vwcddr 
+				<where>
+					<if test="codigoLocal != '' and codigoLocal != null "> 
+						TRIM(vwcddr.CODIGO_LOCAL) = #{codigoLocal} 			
+					</if>
+					
+					<if test="anioInicio != null and anioFin != null and mesInicio != null and mesFin != null"> 
+						AND vwcddr.inicio_solicitud BETWEEN TO_DATE('01/' || TO_CHAR(#{mesInicio}) ||'/' || TO_CHAR(#{anioInicio}),'DD/MM/YYYY') AND LAST_DAY(TO_DATE('01/' || TO_CHAR(#{mesFin}) || '/' || TO_CHAR(#{anioFin}),'DD/MM/YYYY'))
+			
+					</if>
+				</where>
+				 group by PERIODO, PERIODO_DESCRIPTIVO, INICIO_SOLICITUD, ANIO 
+					
+			</if>
+
+			ORDER BY vwcddr.inicio_solicitud
+			
+	</select>
+</mapper>

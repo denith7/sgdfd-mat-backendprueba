@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.TipoTramiteDocumentoMapper">
+
+	<sql id="fragmentoSelectTipoTramiteDocumento">
+        SELECT   		  vwmtt.id_tipo_tramite 	AS idtipoTramite
+        				, vwmtt.nombre_tipo_tramite		AS nombreTipoTramite
+						, vwmtt.id_tipo_documento 			AS idTipoDocumento
+						, vwmtt.descripcion_tipo_documento	AS descripcionTipoDocumento
+		
+
+    	FROM VW_MAN_TIPO_TRAMITE_DOCUMENTO vwmtt
+	</sql>
+	
+	
+	<select id="buscarTodos" resultType="TipoTramiteDocumentoResponse">
+		<include refid="fragmentoSelectTipoTramiteDocumento" />
+	</select>
+
+
+	<select id="buscarPorIdTipoTramiteYIdTipoDocumento" resultType="TipoTramiteDocumentoResponse">
+		<include refid="fragmentoSelectTipoTramiteDocumento"/>
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			id_tipo_tramite = #{idTipoTramite}
+		</if>
+		<if test="idTipoDocumento != '' and idTipoDocumento != null">
+			AND id_tipo_documento = #{idTipoDocumento}
+		</if>
+		</where>
+	</select>
+
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_TIPO_TRAMITE_DOCUMENTO (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idTipoTramite,			jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.idTipoDocumento,       	jdbcType = VARCHAR, mode = IN},
+			 #{usuario,                    				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+
+</mapper>

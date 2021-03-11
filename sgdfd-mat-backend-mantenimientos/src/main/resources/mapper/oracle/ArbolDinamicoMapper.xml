@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.ArbolDinamicoMapper">
+
+	<sql id="fragmentoSelectArbolDatos">
+		SELECT  ad.ID
+			  , ad.DESCRIPCION
+			  , ad.ID_PADRE
+		FROM ARBOL_DINAMICO ad
+	</sql>
+	
+	<select id="getData" resultType="ChildrenNode">
+		<include refid= "fragmentoSelectArbolDatos"/>
+		<where>
+			id_padre = #{id}
+		</where>
+	</select>
+
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.EmpleadoDependenciaMapper">
+	
+	
+	<sql id="fragmentoSelectEmpleadoDependencia">
+        SELECT   		  codigo_empleado 		AS codigoEmpleado
+						, codigo_dependencia    AS codigoDependencia
+						, titulo_dependencia 	AS tituloDependencia
+						, nombre_empleado		AS nombreEmpleado
+						, estado 				AS estado
+						, estado_descripcion	AS estadoDescripcion
+    	FROM VW_MAN_EMPLEADO_DEPENDENCIA 
+	</sql>
+	
+	
+	<select id="buscarTodos" resultType="EmpleadoDependenciaResponse">
+		<include refid="fragmentoSelectEmpleadoDependencia" />
+	</select>
+	
+	<select id="buscarPorCodigoDependencia" resultType="EmpleadoDependenciaResponse">
+		<include refid="fragmentoSelectEmpleadoDependencia"/>
+		<where>
+		<if test="codigoDependencia != '' and codigoDependencia != null">
+				codigo_dependencia  = #{codigoDependencia}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorCodigoDependenciaYCodigoEmpleado" resultType="EmpleadoDependenciaResponse">
+		<include refid="fragmentoSelectEmpleadoDependencia"/>
+		<where>
+		<if test="codigoDependencia != '' and codigoDependencia != null">
+				codigo_dependencia  = #{codigoDependencia}
+		</if>
+		<if test="codigoEmpleado != '' and codigoEmpleado != null">
+			AND codigo_empleado  = #{codigoEmpleado}
+		</if>
+		</where>
+	</select>
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_EMPLEADO_DEPENDENCIA (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoEmpleado,			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoDependencia,       jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.estado,       			jdbcType = VARCHAR, mode = IN},
+			 #{usuario,				                    jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+	
+	
+</mapper>	

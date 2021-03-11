@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.FormularioCamposMapper">
+	
+
+	<sql id="fragmentoSelectFormularioCampos">
+        SELECT    vwmf.ID_FORMULARIO		AS	 idFormulario
+        		, vwmf.ID_CAMPO				AS	 idCampo
+        		, vwmf.nombre_campo			AS	 nombreCampo
+        		, vwmf.tipo_dato			AS	 tipoDato
+        		, vwmf.descripcion			AS	 descripcion
+        		, vwmf.descripcion_corta	AS	 descripcionCorta
+        		, vwmf.longitud				AS	 longitud
+        		, vwmf.precision			AS	 precision
+        		, vwmf.obligatorio			AS	 obligatorio
+        		, vwmf.placeholder			AS	 placeholder
+        		  
+    	FROM VW_MAN_Formulario_Campos vwmf
+	</sql>
+
+    <select id="buscarTodos" resultType="FormularioCamposResponse">
+		<include refid="fragmentoSelectFormularioCampos" />
+	</select>
+
+	<select id="buscarPorIdFormulario" resultType="FormularioCamposResponse">
+		<include refid="fragmentoSelectFormularioCampos" />
+		<where>
+		<if test="idFormulario != '' and idFormulario != null">
+			AND ID_FORMULARIO = #{idFormulario} 
+		</if>
+		</where>
+	</select>
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_FORMULARIO_CAMPOS (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idFormulario,			jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.idCampo,					jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.nombreCampo,     		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.tipoDato,	     		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.descripcion,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.descripcionCorta,       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.longitud,       			jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.precision,      			jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.obligatorio,       		jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.placeholder,       		jdbcType = VARCHAR, mode = IN},
+   			 #{usuario,                   				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+	
+</mapper>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.TipoTramiteDestinatarioMapper">
+
+	<sql id="fragmentoSelectTipoTramiteDestinatario">
+        SELECT   		  vwmtt.id_tipo_tramite 	AS idtipoTramite
+        				, vwmtt.nombre_tramite		AS nombreTramite
+						, vwmtt.id_local 			AS idLocal
+						, vwmtt.nombre_local		AS nombreLocal
+						, vwmtt.id_item 			AS idItem
+						, vwmtt.codigo_dependencia 	AS codigoDependencia
+						, vwmtt.titulo_dependencia  AS tituloDependencia
+						, vwmtt.tipo_destino 		AS tipoDestino
+						, vwmtt.destino				AS destino
+						, vwmtt.codigo_empleado 	AS codigoEmpleado
+						, vwmtt.nombre_completo		AS nombreCompleto
+						, vwmtt.codigo_prioridad 	AS codigoPrioridad
+						, vwmtt.prioridad			AS prioridad
+						, vwmtt.indicaciones 		AS indicaciones
+						, vwmtt.codigo_motivo 		AS codigoMotivo
+						, vwmtt.motivo				AS motivo
+						, vwmtt.tipo_receptor		AS tipoReceptor
+					
+    	FROM VW_MAN_TIPO_TRAMITE_DESTINATAR vwmtt
+	</sql>
+	
+	
+	<select id="buscarTodos" resultType="TipoTramiteDestinatarioResponse">
+		<include refid="fragmentoSelectTipoTramiteDestinatario" />
+	</select>
+
+	<select id="buscarPorIdTipoTramite" resultType="TipoTramiteDestinatarioResponse">
+		<include refid="fragmentoSelectTipoTramiteDestinatario"/>
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			id_tipo_tramite = #{idTipoTramite}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorIdLocal" resultType="TipoTramiteDestinatarioResponse">
+		<include refid="fragmentoSelectTipoTramiteDestinatario"/>
+		<where>
+		<if test="idLocal != '' and idLocal != null">
+			id_local = #{idLocal}
+		</if>
+		</where>
+	</select>
+
+	<select id="buscarPorIdTipoTramiteYIdLocalYIdItem" resultType="TipoTramiteDestinatarioResponse">
+		<include refid="fragmentoSelectTipoTramiteDestinatario"/>
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			id_tipo_tramite = #{idTipoTramite}
+		</if>
+		<if test="idLocal != '' and idLocal != null">
+			AND id_local = #{idLocal}
+		</if>
+		<if test="idItem != '' and idItem != null">
+			AND id_item = #{idItem}
+		</if>
+		</where>
+	</select>
+
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_TIPO_TRAMITE_DESTINATA (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idTipoTramite,			jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.idLocal,       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idItem,       			jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.codigoDependencia,  		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.tipoDestino, 			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoEmpleado,     		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoPrioridad,    		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.indicaciones,     		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoMotivo,			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.tipoReceptor,			jdbcType = VARCHAR, mode = IN},
+			 #{usuario,                    				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+
+</mapper>

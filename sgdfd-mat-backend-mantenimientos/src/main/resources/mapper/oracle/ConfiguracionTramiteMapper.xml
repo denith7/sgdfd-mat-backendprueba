@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.ConfiguracionTramiteMapper">
+
+	<sql id="fragmentoSelectConfiguracionTramite">
+        SELECT    vwmtr.nombre_tramite			AS	 nombreTramite
+        		, vwmtr.id_tipo_tramite			AS	 idTipoTramite
+        		, vwmtr.nombre_local			AS	 nombreLocal
+				, vwmtr.codigo_local			AS	 codigoLocal
+				, vwmtr.estado 					AS	 estado
+				, vwmtr.informacion_adicional_html			AS	 informacionAdicionalHtml
+				, vwmtr.id_requisito			AS	 idRequisito
+				, vwmtr.nombre_requisito		AS	 nombre
+				, vwmtr.numero_orden			AS	 numeroOrden
+				, vwmtr.indicador_obligatorio 	AS   indicadorObligatorio
+				, vwmtr.id_item 				AS   idItem
+				, vwmtr.periodo_fecha			AS   periodoFecha
+				, vwmtr.descripcion				AS   descripcion
+				, vwmtr.id_destinatario			AS	 idDestinatario
+				, vwmtr.codigo_dependencia		AS   codigoDependencia
+				, vwmtr.codigo_tipo_destino		AS   tipoDestino
+				, vwmtr.codigo_empleado			AS 	 codigoEmpleado
+				, vwmtr.codigo_prioridad		AS	 codigoPrioridad
+				, vwmtr.indicaciones			AS   indicaciones
+				, vwmtr.codigo_motivo			AS   codigoMotivo
+				, vwmtr.dependencia				AS   tituloDependencia
+				, vwmtr.empleado				AS   nombreCompleto
+				, vwmtr.motivo					AS   motivo
+
+    	FROM VW_MAN_CONFIGURACION_TRAMITE vwmtr
+	</sql>
+
+	<resultMap type="ConfiguracionTramiteResponse" id="ConfiguracionTramiteResultMap">
+		<id property="idTipoTramite" column="idTipoTramite"></id>
+		<id property="codigoLocal" column="codigoLocal"></id>
+
+		<result property="estado" column="estado"></result>	
+		<result property="informacionAdicionalHtml" column="informacionAdicionalHtml"></result>	
+		
+		<collection property="listaRequisitos" javaType="List" ofType="TipoTramiteLocalRequisitoResponse">
+			<result property="idRequisito" column="idRequisito"></result>
+			<result property="nombre" column="nombre"></result>
+			<result property="numeroOrden" column="numeroOrden"></result>	
+			<result property="indicadorObligatorio" column="indicadorObligatorio"></result>
+		</collection>
+		
+		<collection property="listaCronogramas" javaType="List" ofType="CronogramaVigenteResponse">	
+ 			<result property="idItem" column="idItem"></result> 
+			<result property="periodoFecha" column="periodoFecha"></result>
+			<result property="descripcion" column="descripcion"></result>
+
+		</collection>		
+	
+		<collection property="listaDestinatarios" javaType="List" ofType="TipoTramiteDestinatarioResponse">
+			<result property="idItem" column="idDestinatario"></result> 
+			<result property="codigoDependencia" column="codigoDependencia"></result>
+			<result property="tituloDependencia" column="tituloDependencia"></result>
+			<result property="tipoDestino" column="tipoDestino"></result>
+			<result property="codigoEmpleado" column="codigoEmpleado"></result>	
+			<result property="nombreCompleto" column="nombreCompleto"></result>	
+			<result property="codigoPrioridad" column="codigoPrioridad"></result>		
+			<result property="indicaciones" column="indicaciones"></result>	
+			<result property="codigoMotivo" column="codigoMotivo"></result>
+			<result property="motivo" column="motivo"></result>		
+		</collection>	
+		
+	</resultMap>
+
+	<resultMap type="ConfiguracionTramiteFiltrado" id="mapTramiteFiltro">
+		<id property="idTipoTramite" column="idTipoTramite"></id>
+		<id property="nombreTramite" column="nombreTramite"></id>
+  		<id property="codigoLocal" column="codigoLocal"></id>
+		<id property="nombreLocal" column="nombreLocal"></id>
+	  	<id property="cantidadRequisitos" column="cantidadRequisitos"></id>
+	  	<id property="cantidadCronogramas" column="cantidadCronogramas"></id>
+	  	<id property="cantidadDestinatarios" column="cantidadDestinatarios"></id>
+	</resultMap>
+	
+	<select id = "filtrarTramites" resultMap ="mapTramiteFiltro">
+
+		SELECT 
+			vwcddr.ID_TIPO_TRAMITE 	AS idTipoTramite,
+			vwcddr.NOMBRE_TRAMITE 	AS nombreTramite,
+			vwcddr.CODIGO_LOCAL 	AS codigoLocal,
+    		vwcddr.NOMBRE_LOCAL		AS	nombreLocal,
+    		vwcddr.ESTADO           AS  estado,
+    		
+    		COUNT (DISTINCT vwcddr.ID_REQUISITO)  AS cantidadRequisitos,
+    		COUNT (DISTINCT vwcddr.ID_ITEM)  AS cantidadCronogramas,
+            COUNT (DISTINCT vwcddr.CODIGO_EMPLEADO)  AS cantidadDestinatarios
+
+			FROM VW_MAN_CONFIGURACION_TRAMITE vwcddr
+			
+			<where>
+				<if test="idTipoTramite != '' and idTipoTramite != null">
+					vwcddr.id_tipo_tramite = #{idTipoTramite}
+				</if>
+				
+				<if test="codigoLocal != '' and codigoLocal != null "> 
+					AND TRIM(vwcddr.CODIGO_LOCAL) = #{codigoLocal} 			
+				</if>
+				
+				<if test="estado != '' and estado != null "> 
+					AND TRIM(vwcddr.ESTADO) = #{estado} 			
+				</if>	
+				
+			</where>
+			
+			GROUP BY vwcddr.CODIGO_LOCAL, vwcddr.NOMBRE_LOCAL, vwcddr.ID_TIPO_TRAMITE, vwcddr.NOMBRE_TRAMITE,  vwcddr.ESTADO
+			ORDER BY TO_NUMBER(vwcddr.CODIGO_LOCAL) DESC
+			
+	</select>
+	
+	<select id="buscarPorIdTipoTramiteYCodigoLocal" resultMap="ConfiguracionTramiteResultMap">
+		<include refid="fragmentoSelectConfiguracionTramite" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			id_tipo_tramite = #{idTipoTramite}
+		</if>
+		<if test="codigoLocal != '' and codigoLocal != null">
+			AND codigo_local = #{codigoLocal}
+		</if>
+
+		</where>
+	</select>	
+	
+	
+	
+	
+	<select id="prcConfiguracionRequisito" statementType="CALLABLE">
+		{
+		call PKG_CONFIGURACION.PRC_CONFIG_REQUISITO (
+
+             #{idTipoTramite,			jdbcType = INTEGER, mode = IN},
+             #{codigoLocal,    			jdbcType = VARCHAR, mode = IN},
+             #{idRequisito,				jdbcType = INTEGER, mode = INOUT},
+             #{numeroOrden,				jdbcType = INTEGER, mode = IN},
+             #{indicadorObligatorio,	jdbcType = INTEGER, mode = IN},
+             #{estado,       			jdbcType = VARCHAR, mode = IN},
+			 #{usuario,                 jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+	
+	<select id="prcConfiguracionLocal" statementType="CALLABLE">
+		{
+		call PKG_CONFIGURACION.PRC_CONFIG_LOCAL (
+
+             #{idTipoTramite,				jdbcType = INTEGER, mode = IN},
+             #{codigoLocal,    				jdbcType = VARCHAR, mode = IN},
+             #{estado,       				jdbcType = INTEGER, mode = IN},
+             #{informacionAdicionalHtml,  	jdbcType = VARCHAR, mode = IN},
+			 #{usuario,                    	jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+	
+	<select id="prcConfiguracionCronograma" statementType="CALLABLE">
+		{
+		call PKG_CONFIGURACION.PRC_CONFIG_CRONOGRAMA (
+             #{idTipoTramite,			jdbcType = INTEGER, mode = IN},
+             #{codigoLocal,    			jdbcType = VARCHAR, mode = IN},
+             #{idItem,					jdbcType = INTEGER, mode = INOUT},
+             #{periodoFecha,			jdbcType = DATE, mode = IN},
+             #{descripcion,       		jdbcType = VARCHAR, mode = IN},
+			 #{usuario,    				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+	<select id="prcConfiguracionDestinatario" statementType="CALLABLE">
+		{
+		call PKG_CONFIGURACION.PRC_CONFIG_DESTINATARIO (
+             #{idTipoTramite,			jdbcType = INTEGER, mode = IN},
+             #{idLocal,    				jdbcType = VARCHAR, mode = IN},
+             #{idItem,					jdbcType = INTEGER, mode = INOUT},
+             #{tipoDestino,				jdbcType = VARCHAR, mode = IN},
+             #{codigoDependencia,		jdbcType = VARCHAR, mode = IN},
+             #{codigoEmpleado, 			jdbcType = VARCHAR, mode = IN},
+             #{codigoPrioridad,			jdbcType = VARCHAR, mode = IN},
+             #{indicaciones,  			jdbcType = VARCHAR, mode = IN},
+             #{codigoMotivo,   			jdbcType = VARCHAR, mode = IN},
+             #{tipoReceptor,       		jdbcType = VARCHAR, mode = IN},
+			 #{usuario,   				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+</mapper>

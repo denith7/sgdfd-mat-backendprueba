@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.FormularioMapper">
+	
+	<sql id="fragmentoSelectFormularioRequisito">
+        SELECT    vwcf.ID_REQUISITO	 		AS	 idRequisito
+				, vwcf.ID_FORMULARIO		AS	 idFormulario
+				, vwcf.nombre				AS	 nombre
+				, vwcf.titulo				AS	 titulo
+				, vwcf.URL_ORIGEN_DATOS		AS	 urlOrigenDatos
+				, vwcf.URL_DESTINO_DATOS	AS	 urlDestinoDatos
+    	FROM VW_CON_Formulario vwcf
+	</sql>
+
+	<sql id="fragmentoSelectFormulario">
+        SELECT    vwmf.ID_FORMULARIO		AS	 idFormulario
+				, vwmf.nombre				AS	 nombre
+				, vwmf.titulo				AS	 titulo
+				, vwmf.URL_ORIGEN_DATOS		AS	 urlOrigenDatos
+				, vwmf.URL_DESTINO_DATOS	AS	 urlDestinoDatos
+    	FROM VW_MAN_Formulario vwmf
+	</sql>
+
+    <select id="buscarTodos" resultType="FormularioResponse">
+		<include refid="fragmentoSelectFormulario" />
+	</select>
+
+	<select id="buscarPorIdFormuario" resultType="FormularioResponse">
+		<include refid="fragmentoSelectFormulario" />
+		<where>
+		<if test="idFormulario != '' and idFormulario != null">
+			ID_FORMULARIO = #{idFormulario}
+		</if>
+		</where>
+	</select>
+    
+    <select id="buscarPorCriterio" resultType="FormularioResponse">
+		<include refid="fragmentoSelectFormulario" />
+		<where>		
+		<if test="idFormulario != '' and idFormulario != null">
+			AND ID_FORMULARIO = #{idFormulario} 
+		</if>
+		<if test="nombre != '' and nombre != null">
+			AND nombre = #{nombre} 
+		</if>
+		<if test="titulo != '' and titulo != null">
+			AND titulo = #{titulo} 
+		</if>
+		<if test="urlOrigenDatos != '' and urlOrigenDatos != null">
+			AND URL_ORIGEN_DATOS = #{urlOrigenDatos} 
+		</if>
+		<if test="urlDestinoDatos != '' and urlDestinoDatos != null">
+			AND URL_DESTINO_DATOS = #{urlDestinoDatos} 
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorRequisito" resultType="RequisitoFormularioResponse">
+		<include refid="fragmentoSelectFormularioRequisito" />
+		<where>
+		<if test="idRequisito != '' and idRequisito != null">
+			AND ID_REQUISITO = #{idRequisito} 
+		</if>
+		</where>
+	</select>
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_FORMULARIO (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idFormulario,			jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.nombre,    		 		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.titulo,       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.urlOrigenDatos,       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.urlDestinoDatos,     	jdbcType = VARCHAR, mode = IN},
+   			 #{usuario,                   				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+	
+	
+</mapper>

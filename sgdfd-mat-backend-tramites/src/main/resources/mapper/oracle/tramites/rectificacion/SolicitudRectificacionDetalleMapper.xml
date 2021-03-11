@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.tramites.mapper.tramites.rectificacion.SolicitudRectificacionDetalleMapper">
+	 
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_RECTIFICACIONES.PRC_PRO_SOL_RECTI_MATRI_DET (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+		     #{objetoMantenido.idOperacion,				jdbcType = INTEGER, mode = INOUT},
+             #{objetoMantenido.tipoOperacion,       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoCurso,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoCursoDestino,  	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.grupoIngreso,			jdbcType = VARCHAR, mode = IN},
+			 #{objetoMantenido.grupoRetiro,			   	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.justificacion,       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoResultado,       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.estadoEjecucion,	       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idSolicitudRectiMatri,  	jdbcType = INTEGER, mode = IN},
+			 #{usuario,               			    	jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+	
+</mapper>
+
+	
+

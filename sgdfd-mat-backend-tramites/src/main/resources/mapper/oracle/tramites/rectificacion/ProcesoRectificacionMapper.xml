@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.tramites.mapper.tramites.rectificacion.ProcesoRectificacionMapper">
+
+	 <resultMap id="procesoRectificacionResultMap" 		type="ProcesoRectificacionResponse">
+	    <id property="idProcesoRectificacion" 			column="idProcesoRectificacion" />
+	    <result property="codigoLocal" 					column="codigoLocal" />
+	    <result property="semestreAcademico" 			column="semestreAcademico" />
+	    <result property="nombre" 						column="nombre" />
+	    <result property="descripcion" 					column="descripcion" />
+	    <result property="codigoEstado" 				column="codigoEstado" />
+	    <result property="descripcionEstado" 			column="descripcionEstado" />
+	    <result property="fechaInicio" 					column="fechaInicio" />
+	    <result property="fechaFin" 					column="fechaFin" />
+	    <result property="idCronograma" 				column="idCronograma" />
+	    
+	    <result property="nombreCronograma" 			column="nombreCronograma" />
+	    <result property="descripcionCronograma" 		column="descripcionCronograma" />
+	    <result property="fechaSistema"			 		column="fechaSistema" />
+	    
+	    <collection property="lsEtapas" javaType="List" ofType="EtapaResponse">
+		    <id		property="idCronograma" 			column="idCronograma"/>
+		    <id	property="idEtapa" 						column="idEtapa"/>
+		    <result property="descripcion" 				column="descripcionEtapa"/>
+			
+			 <collection property="lsActividades" javaType="List" ofType="ActividadResponse">
+			    <id		property="idCronograma" 		column="idCronograma"/>
+			    <id	property="idEtapa" 					column="idEtapa"/>
+			    <id property="idActividad" 				column="idActividad"/>
+			    <result property="numeroOrden" 			column="numeroOrden"/>
+			    <result property="inicio" 				column="inicioActividad"/>
+			    <result property="fin" 					column="finActividad"/>
+			    <result property="idTipoProceso" 		column="idTipoProceso"/>
+			    <result property="idTipoActividad" 		column="idTipoActividad"/>
+			    
+			    <result property="nombreActividad" 		column="nombreActividad"/>
+			    <result property="descripcionActividad" column="descripcionActividad"/>
+
+			</collection>
+			
+		</collection>
+	    
+	  </resultMap>
+	  
+	 
+	<sql id="fragmentoSelectProcesoRectificacion">
+
+	 SELECT     vwctpr.id_proceso_rectificacion       as idProcesoRectificacion
+              , vwctpr.codigo_local                   as codigoLocal
+              , vwctpr.semestre_academico             as semestreAcademico
+              , vwctpr.nombre_proceso                 as nombre
+              , vwctpr.descripcion_proceso            as descripcion
+              , vwctpr.codigo_estado_proceso          as codigoEstado
+              , vwctpr.nombre_estado_proceso          as descripcionEstado
+              , vwctpr.fecha_inicio_proceso           as fechaInicio
+              , vwctpr.fecha_fin_proceso              as fechaFin
+              , vwctpr.fecha_sistema                  as fechaSistema
+              
+			  , vwctpr.id_cronograma              	  as idCronograma
+              , vwctpr.nombre_cronograma              as nombreCronograma
+              , vwctpr.descripcion_cronograma         as descripcionCronograma
+              , vwctpr.id_etapa                       as idEtapa 
+              , vwctpr.descripcion_etapa              as descripcionEtapa
+              , vwctpr.id_actividad                   as idActividad
+              , vwctpr.nombre_actividad               as nombreActividad
+              , vwctpr.descripcion_actividad          as descripcionActividad
+              , vwctpr.fecha_inicio                   as inicioActividad
+              , vwctpr.hora_inicio                    as horaInicio
+              , vwctpr.fecha_fin                      as finActividad
+              , vwctpr.hora_fin                       as horaFin    
+      FROM VW_CON_TRA_PROCESO_RECTI vwctpr
+	</sql>
+	
+
+
+	<select id="buscarTodos" resultMap="procesoRectificacionResultMap">
+		<include refid="fragmentoSelectProcesoRectificacion" />
+	</select>
+	
+	<select id="buscarPorId" resultMap="procesoRectificacionResultMap">
+		<include refid="fragmentoSelectProcesoRectificacion" />
+		<where>
+		<if test="idProcesoRectificacion != '' and idProcesoRectificacion != null">
+			vwctpr.id_proceso_rectificacion = #{idProcesoRectificacion}
+		</if>
+		</where>
+	</select>
+	
+	
+<!-- 	<select id="mantener" statementType="CALLABLE"> -->
+<!-- 		{ -->
+<!-- 		call PKG_RECTIFICACIONES.PRC_PRO_SOL_RECTI_MATRI ( -->
+<!-- 		     #{modo,                   					jdbcType = VARCHAR, mode = IN}, -->
+<!--              #{objetoMantenido.idSolicitudRectiMatri,	jdbcType = INTEGER, mode = INOUT}, -->
+<!--              #{objetoMantenido.codigoAlumno,       		jdbcType = VARCHAR, mode = IN}, -->
+<!--              #{objetoMantenido.codigoFacultad,       	jdbcType = INTEGER, mode = IN}, -->
+<!--              #{objetoMantenido.codigoEscuela,  			jdbcType = INTEGER, mode = IN}, -->
+<!--              #{objetoMantenido.codigoPlan,				jdbcType = VARCHAR, mode = IN}, -->
+<!-- 			 #{objetoMantenido.estado,			       	jdbcType = VARCHAR, mode = IN}, -->
+<!--              #{objetoMantenido.idSolicitudTramite,      jdbcType = INTEGER, mode = IN}, -->
+<!--              #{objetoMantenido.idProcesoRectificacion,  jdbcType = INTEGER, mode = IN}, -->
+<!--              #{usuario,               			    	jdbcType = VARCHAR, mode = IN}   -->
+<!--              ) -->
+<!--          } -->
+<!-- 	</select> -->
+
+</mapper>
+
+	
+

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.tramites.mapper.tramites.rectificacion.RectificacionMatriculaDetMapper">
+
+	<sql id="fragmentoSelectRectificacionMatriculaDetalle">
+        SELECT    vwdst.codigo_facultad		 			AS	 codigoFacultad
+				, vwdst.codigo_escuela					AS	 codigoEscuela
+				, vwdst.id_proceso_rectificacion		AS	 idProcesoRectificacion
+				, vwdst.codigo_plan						AS	 codigoPlan
+				, vwdst.codigo_alumno					AS	 codigoAlumno
+				, vwdst.alu								AS	 alu 				
+				, vwdst.prom								AS	 prom
+				, vwdst.situacion_academica					AS	 situacionAcademica
+				, vwdst.anio_ciclo_estudio					AS	 anioCicloEstudio
+				, vwdst.ultima_matricula					AS	 ultimaMatricula
+				, vwdst.fecha								AS	 fecha 				
+				, vwdst.hora								AS	 hora
+				, vwdst.id_solicitud_recti_matricula		AS	 idSolicitudRectiMatricula
+				, vwdst.id_operacion						AS	 idOperacion
+				, vwdst.tipo_operacion						AS	 tipoOperacion
+				, vwdst.abreviatura							AS	 abreviatura 
+				, vwdst.codigo_curso						AS	 codigoCurso
+				, vwdst.na1									AS	 na1
+				, vwdst.d1									AS	 d1
+				, vwdst.dn1									AS	 dn1
+				, vwdst.grupo_retiro						AS	 grupoRetiro
+				, vwdst.grupo_ingreso				AS	 grupoIngreso
+				, vwdst.codigo_curso_destino		AS	 codigoCursoDestino
+				, vwdst.na2							AS	 na2
+				, vwdst.d2							AS	 d2
+				, vwdst.dn2							AS	 dn2				
+				, vwdst.justificacion				AS	 justificacion
+				, vwdst.matriculados_1				AS	 matriculados1
+				, vwdst.matriculados_2				AS	 matriculados2
+				, vwdst.codigo_resultado			AS	 codigoResultado
+				, vwdst.nombre_codigo_resultado		AS	 nombreCodigoResultado				
+				, vwdst.estado_ejecucion			AS	 estadoEjecucion
+				, vwdst.nombre_estado_ejecucion		AS	 nombreEstadoEjecucion
+				, vwdst.o1							AS	 o1
+				, vwdst.e1							AS	 e1
+				, vwdst.o2							AS	 o2				
+				, vwdst.e2							AS	 e2
+    	FROM VW_CON_TRA_RECTI_MATRI_DET vwdst
+	</sql>
+
+	<select id="buscarTodos" resultType="RectificacionMatriculaDetalleResponse">
+		<include refid="fragmentoSelectRectificacionMatriculaDetalle" />
+	</select>
+	
+	
+<!-- 	<select id="mantener" statementType="CALLABLE"> -->
+<!-- 		{ -->
+<!-- 		call PKG_TRAMITES.PRC_PRO_SOL_TRAMITE_REQUISITO ( -->
+<!-- 		     #{modo,                   					jdbcType = VARCHAR, mode = IN}, -->
+<!--              #{objetoMantenido.idSolicitudTramite,		jdbcType = INTEGER, mode = IN}, -->
+<!--              #{objetoMantenido.idTipoTramite,			jdbcType = INTEGER, mode = IN}, -->
+<!--              #{objetoMantenido.idRequisito,				jdbcType = INTEGER, mode = IN}, -->
+<!--              #{objetoMantenido.archivoAdjunto,  		jdbcType = BLOB	  , mode = IN}, -->
+<!--              #{objetoMantenido.valor	,       		jdbcType = VARCHAR, mode = IN}, -->
+<!--              #{objetoMantenido.estado	,       		jdbcType = VARCHAR, mode = IN}, -->
+<!--              #{objetoMantenido.descripcionSeguimiento,	jdbcType = VARCHAR, mode = IN}, -->
+<!-- 			 #{usuario,                   				jdbcType = VARCHAR, mode = IN}   -->
+<!--              ) -->
+<!--          } -->
+<!-- 	</select> -->
+
+</mapper>
+
+	
+

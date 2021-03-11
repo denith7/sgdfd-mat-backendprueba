@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.TipoTramiteLocalMapper">
+
+	<sql id="fragmentoSelectTipoTramiteLocal">
+        SELECT    vwmtt.codigo_local					AS	codigoLocal
+        	    , vwmtt.nombre_local					AS	nombreLocal
+				, vwmtt.id_tipo_tramite				 	AS	idTipoTramite
+				, vwmtt.nombre							AS	nombre
+				, vwmtt.descripcion						AS	descripcion
+				, vwmtt.asunto							AS	asunto
+				, vwmtt.indicador_tupa					AS	indicadorTupa
+				, vwmtt.descripcion_indicador_tupa		AS	descripcionIndicadorTupa
+				, vwmtt.nombre_url						AS	nombreUrl
+				, vwmtt.codigo_proceso_sgd				AS	codigoProcesoSgd
+				, vwmtt.observacion_tramite_sgd 		AS 	observacionTramiteSgd
+				, vwmtt.numero_dias_atencion_sgd 		AS	numeroDiasAtencionSgd
+				, vwmtt.numero_orden					AS	numeroOrden
+				, vwmtt.estado							AS	estado
+				, vwmtt.nombre_estado					AS	nombreEstado
+				, vwmtt.informacion_adicional_html		AS	informacionAdicionalHtml
+    	FROM VW_MAN_TIPO_TRAMITE_LOCAL vwmtt
+	</sql>
+
+<sql id="fragmentoSelectLocalesByTipoTramite">
+        SELECT    vwmtt.codigo_local					AS	codigoLocal
+        	    , vwmtt.nombre_local					AS	nombreLocal
+				, vwmtt.id_tipo_tramite				 	AS	idTipoTramite
+<!-- 				, vwmtt.nombre							AS	nombre -->
+				, vwmtt.descripcion						AS	descripcion
+				, vwmtt.asunto							AS	asunto
+				, vwmtt.indicador_tupa					AS	indicadorTupa
+				, vwmtt.descripcion_indicador_tupa		AS	descripcionIndicadorTupa
+				, vwmtt.nombre_url						AS	nombreUrl
+				, vwmtt.codigo_proceso_sgd				AS	codigoProcesoSgd
+				, vwmtt.observacion_tramite_sgd 		AS 	observacionTramiteSgd
+				, vwmtt.numero_dias_atencion_sgd 		AS	numeroDiasAtencionSgd
+				, vwmtt.numero_orden					AS	numeroOrden
+				, vwmtt.estado							AS	estado
+				, vwmtt.nombre_estado					AS	nombreEstado
+				, vwmtt.informacion_adicional_html		AS	informacionAdicionalHtml
+    	FROM VW_MAN_TIPO_TRAMITE_LOCAL vwmtt
+	</sql>
+	
+		<sql id="fragmentoSelectConsultaTipoTramiteLocal">
+        SELECT    vwmtt.id_tipo_tramite	 	AS	 idTipoTramite
+				, vwmtt.nombre				AS	 nombre
+				, vwmtt.descripcion			AS	 descripcion
+				, vwmtt.asunto				AS	 asunto
+				, vwmtt.indicador_tupa		AS	 indicadorTupa
+				, vwmtt.descripcion_indicador_tupa		AS	 descripcionIndicadorTupa
+				, vwmtt.id_grupo_local		AS	 idGrupoLocal
+				, vwmtt.codigo_local		AS	 codigoLocal
+				, vwmtt.nombre_local		AS	 nombreLocal
+				, vwmtt.descripcion_local	AS	 descripcionLocal
+				, vwmtt.sigla_local			AS   siglaLocal
+				, vwmtt.codigo_estado		AS	 codigoEstado
+				, vwmtt.nombre_estado		AS	 nombreEstado
+				, vwmtt.nombre_url			as nombreUrl
+				, vwmtt.INFORMACION_ADICIONAL_HTML 	AS 	informacionAdicionalHtml
+				, vwmtt.CODIGO_CATEGORIA    AS   codigoCategoria
+    	FROM VW_CON_TIPO_TRAMITE_LOCAL vwmtt
+    	
+	</sql>
+	
+		<sql id="fragmentoSelectTipoTramiteLocalUA">
+        SELECT    vwmtt.id_tipo_tramite	 	AS	 idTipoTramite
+				, vwmtt.nombre				AS	 nombre
+				, vwmtt.descripcion			AS	 descripcion
+				, vwmtt.asunto				AS	 asunto
+				, vwmtt.indicador_tupa		AS	 indicadorTupa
+				, vwmtt.descripcion_indicador_tupa		AS	 descripcionIndicadorTupa
+				, vwmtt.id_grupo_local		AS	 idGrupoLocal
+				, vwmtt.codigo_local		AS	 codigoLocal
+				, vwmtt.nombre_local		AS	 nombreLocal
+				, vwmtt.sigla_local			AS   siglaLocal
+				, vwmtt.codigo_escuela		AS   codigoEscuela
+				, vwmtt.nombre_escuela		AS   nombreEscuela
+				, vwmtt.sigla_escuela		AS   siglaEscuela
+				, vwmtt.codigo_estado		AS	 codigoEstado
+				, vwmtt.nombre_estado		AS	 nombreEstado
+				, vwmtt.nombre_url			as nombreUrl
+				, vwmtt.INFORMACION_ADICIONAL_HTML 	AS 	informacionAdicionalHtml
+    	FROM VW_CON_TIPO_TRAMITE_LOCAL_UA vwmtt
+    	
+	</sql>
+	
+	<select id="buscarTodos" resultType="TipoTramiteLocalResponse">
+		<include refid="fragmentoSelectTipoTramiteLocal" />
+		<where>
+		CODIGO_LOCAL is not null <!-- para excluir los tramite tupa -->
+		</where>
+	</select>
+	
+	<select id="buscarPorIdTipoTramiteYCodigoLocal" resultType="TipoTramiteLocalResponse">
+		<include refid="fragmentoSelectTipoTramiteLocal" />
+		<where>
+		<if test="codigoLocal != '' and codigoLocal != null">
+			codigo_local = #{codigoLocal}
+		</if>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			AND id_tipo_tramite = #{idTipoTramite}
+		</if>
+			AND CODIGO_LOCAL is not null <!-- para excluir los tramite tupa --> 
+		</where>
+	</select>
+	
+	<select id="buscarPorIdTipoTramite" resultType="TipoTramiteLocalResponse">
+		<include refid="fragmentoSelectLocalesByTipoTramite" />
+		<where>
+<!-- 		<if test="codigoLocal != '' and codigoLocal != null"> -->
+<!-- 			codigo_local = #{codigoLocal} -->
+<!-- 		</if> -->
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			AND id_tipo_tramite = #{idTipoTramite}
+		</if>
+			AND CODIGO_LOCAL is not null <!-- para excluir los tramite tupa --> 
+		</where>
+	</select>
+	
+	<select id="buscarPorCodigoLocal" resultType="TipoTramiteLocalResponse">
+		<include refid="fragmentoSelectTipoTramiteLocal" />
+		<where>
+		<if test="codigoLocal != '' and codigoLocal != null">
+			codigo_local = #{codigoLocal}
+		</if>
+<!-- 		<if test="idTipoTramite != '' and idTipoTramite != null"> -->
+<!-- 			AND id_tipo_tramite = #{idTipoTramite} -->
+<!-- 		</if> -->
+<!-- 			AND CODIGO_LOCAL is not null para excluir los tramite tupa  -->
+		</where>
+	</select>
+	
+	<select id="buscarPorCriterio" resultType="TipoTramiteLocalResponse">
+		<include refid="fragmentoSelectTipoTramiteLocal" />
+		<where>
+		<if test="codigoLocal != '' and codigoLocal != null">
+			codigo_local = #{codigoLocal}
+		</if>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			AND id_tipo_tramite = #{idTipoTramite}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorUrlYLocal" resultType="TipoTramiteLocalResponse">
+		<include refid="fragmentoSelectConsultaTipoTramiteLocal" />
+		<where>
+		<if test="nombreUrl != '' and nombreUrl != null">
+			nombre_url = #{nombreUrl}
+		</if>
+		<if test="codigoLocal != '' and codigoLocal != null">
+			AND codigo_local = #{codigoLocal} 
+		</if>		
+		</where>
+	</select>
+	
+	<select id="buscarPorUrlYLocalYEscuela" resultType="TipoTramiteLocalResponse">
+		<include refid="fragmentoSelectTipoTramiteLocalUA" />
+		<where>
+		<if test="nombreUrl != '' and nombreUrl != null">
+			nombre_url = #{nombreUrl}
+		</if>
+		<if test="codigoLocal != '' and codigoLocal != null">
+			AND codigo_local = #{codigoLocal} 
+		</if>	
+		<if test="codigoEscuela != '' and codigoEscuela != null">
+			AND codigo_escuela = #{codigoEscuela} 
+		</if>
+		</where>
+	</select>
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_TIPO_TRAMITE_LOCAL (
+		     #{modo,                 				  		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoLocal,       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idTipoTramite,       		jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.numeroOrden,     	  		jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.estado,			       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.informacionAdicionalHtml, 	jdbcType = VARCHAR, mode = IN},
+			 #{usuario,              			     		jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+	
+<!-- 	<select id=mantener statementType="CALLABLE"> -->
+<!-- 		{ -->
+<!-- 		call PKG_MANTENIMIENTOS.PRC_MAN_TIPO_TRAMITE_LOCAL ( -->
+<!-- 		     #{modo,                 				  		jdbcType = VARCHAR, mode = IN}, -->
+<!--              #{objetoMantenido.codigoLocal,       			jdbcType = VARCHAR, mode = IN}, -->
+<!--              #{objetoMantenido.idTipoTramite,       		jdbcType = INTEGER, mode = IN}, -->
+<!--              #{objetoMantenido.numeroOrden,     	  		jdbcType = INTEGER, mode = IN}, -->
+<!--              #{objetoMantenido.estado,			       		jdbcType = VARCHAR, mode = IN}, -->
+<!--              #{objetoMantenido.informacionAdicionalHtml, 	jdbcType = VARCHAR, mode = IN}, -->
+<!-- 			 #{usuario,              			     		jdbcType = VARCHAR, mode = IN}   -->
+<!--              ) -->
+<!--          } -->
+<!-- 	</select> -->
+</mapper>

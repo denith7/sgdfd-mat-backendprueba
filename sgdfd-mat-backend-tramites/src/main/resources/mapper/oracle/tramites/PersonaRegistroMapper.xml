@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.tramites.mapper.PersonaRegistroMapper">
+
+<sql id="fragmentoSelectPersonaRegistro">
+        SELECT    id_item	 				AS	 idItem
+				, tipo_documento			AS	 tipoDocumento
+				, numero_documento			AS	 numeroDocumento
+				, nombres			 		AS 	 nombres
+				, apellido_paterno 			AS 	 apellidoPaterno
+				, apellido_materno 			AS 	 apellidoMaterno
+				, sexo           			AS   sexo
+				, direccion_domicilio 		AS 	 direccionDomicilio
+				, fecha_nacimiento 			AS 	 fechaNacimiento
+				, celular 					AS   celular
+				, telefono  				AS   telefono
+				, correo_referencia		 	AS   correoReferencia
+				, codigo_alumno				AS	 codigoAlumno
+				, ubigeo_persona			AS 	 ubigeoPersona
+				, username 					AS 	 username
+				, contrasenia 				AS 	 contrasenia
+				, tipo_usuario           	AS   tipoUsuario
+				, ruc 						AS 	 ruc
+				, razon_social			 	AS 	 razonSocial
+				, direccion_empresa 		AS 	 direccionEmpresa
+				, contacto_representante  	AS   contactoRepresentante
+				, ubigeo_empresa 			AS   ubigeoEmpresa
+				, estado					AS   estado
+				, departamento_persona		AS   departamentoPersona
+				, provincia_persona			AS   provinciaPersona
+				, distrito_persona			AS   distritoPersona
+				, departamento_empresa		AS   departamentoEmpresa
+				, provincia_empresa			AS   provinciaEmpresa
+				, distrito_empresa			AS   distritoEmpresa
+				, descripcion_sexo			AS   descripcionSexo
+				, descripcion_documento		AS   descripcionDocumento
+				, descripcion_tipo_externo	AS	 descripcionTipoUsuario
+    	FROM VW_MOV_REGISTRO_EXTERNOS
+	</sql>
+	
+	
+	<sql id="fragmentoSelectPersonasRegistradas">
+        SELECT    codigo_alumno				AS	 codigoAlumno	
+				, tipo_documento_id			AS	 tipoDocumentoId
+				, numero_documento			AS	 numeroDocumento
+				, nombres			 		AS 	 nombres
+				, apellido_paterno 			AS 	 apellidoPaterno
+				, apellido_materno 			AS 	 apellidoMaterno
+				, correo_personal  			AS   correoPersonal
+				, codigo_escuela			AS   codigoEscuela
+				, correo_institucional		AS	 correoInstitucional
+				, direccion_domicilio 		AS 	 direccionDomicilio
+				, numero_celular			AS 	 numeroCelular
+				, numero_telefono  			AS   numeroTelefono
+				, facultad					AS	 facultad
+				, escuela_profesional		AS	 escuelaProfesional
+				, especialidad				AS	 especialidad
+				, codigo_especialidad		AS	 codigoEspecialidad
+				
+    	FROM VW_CON_PERSONAS_GENERAL
+	</sql>
+	
+
+	<select id="buscarTodos" resultType="PersonaRegistroResponse">
+		<include refid="fragmentoSelectPersonaRegistro" />
+	</select>
+	
+	<select id="buscarPorIdItemYTipoDocumentoYNumeroDocumento" resultType="PersonaRegistroResponse">
+		<include refid="fragmentoSelectPersonaRegistro" />
+		<where>
+		<if test="idItem != '' and idItem != null">
+			id_item = #{idItem}
+		</if>
+		<if test="tipoDocumento != '' and tipoDocumento != null">
+			AND tipo_documento = #{tipoDocumento}
+		</if>
+		<if test="numeroDocumento != '' and numeroDocumento != null">
+		    AND	numero_documento = #{numeroDocumento}
+		</if>
+		</where>
+	</select>
+
+	<select id="buscarPorCorreo" resultType="PersonaRegistroResponse">
+		<include refid="fragmentoSelectPersonaRegistro" />
+		<where>
+		<if test="correoReferencia != '' and correoReferencia != null">
+			correo_referencia = #{correoReferencia}
+		</if>
+		</where>
+	</select>
+
+	<select id="buscarPersonasPorCorreoYNumeroDocumento" resultType="PersonasRegistradasResponse">
+		<include refid="fragmentoSelectPersonasRegistradas" />
+		<where>
+		<if test="correoInstitucional != '' and correoInstitucional != null">
+			correo_institucional = #{correoInstitucional}
+		</if>
+		<if test="numeroDocumento != '' and numeroDocumento != null">
+			OR numero_documento = #{numeroDocumento}
+		</if>
+		</where>
+	</select>
+
+
+	<select id="mantener" statementType="CALLABLE">
+		{ 
+		call PKG_MOV.PRC_MOV_REGISTRO_EXTERNOS (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idItem,					jdbcType = VARCHAR, mode = INOUT},
+             #{objetoMantenido.tipoDocumento,       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.numeroDocumento,			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.nombres,	       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.apellidoPaterno,	       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.apellidoMaterno,	       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.sexo,	       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.direccionDomicilio,	    jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.fechaNacimiento,   		jdbcType = DATE, mode = IN},
+             #{objetoMantenido.celular,   				jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.telefono,   				jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.correoReferencia,   		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoAlumno,   			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.ubigeoPersona,   		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.username,   				jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.contrasenia,   			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.tipoUsuario,   			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.ruc,   				    jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.razonSocial,   			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.direccionEmpresa,   		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.contactoRepresentante,   jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.ubigeoEmpresa,   		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.tipoExterno,   			jdbcType = VARCHAR, mode = IN},
+			 #{usuario,                   				jdbcType = VARCHAR, mode = IN}
+			 
+             )
+         }
+	</select>
+	
+</mapper>

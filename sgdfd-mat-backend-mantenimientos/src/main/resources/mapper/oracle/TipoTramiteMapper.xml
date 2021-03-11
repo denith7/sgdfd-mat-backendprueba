@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.TipoTramiteMapper">
+	
+	<sql id="fragmentoSelectTipoTramiteLocal">
+        SELECT    vwmtt.id_tipo_tramite	 	AS	 idTipoTramite
+				, vwmtt.nombre				AS	 nombre
+				, vwmtt.descripcion			AS	 descripcion
+				, vwmtt.asunto				AS	 asunto
+				, vwmtt.indicador_tupa		AS	 indicadorTupa
+				, vwmtt.descripcion_indicador_tupa		AS	 descripcionIndicadorTupa
+				, vwmtt.id_grupo_local		AS	 idGrupoLocal
+				, vwmtt.codigo_local		AS	 codigoLocal
+				, vwmtt.nombre_local		AS	 nombreLocal
+				, vwmtt.descripcion_local	AS	 descripcionLocal
+				, vwmtt.sigla_local			AS   siglaLocal
+				, vwmtt.codigo_estado		AS	 codigoEstado
+				, vwmtt.nombre_estado		AS	 nombreEstado
+				, vwmtt.nombre_url			as nombreUrl
+				, vwmtt.INFORMACION_ADICIONAL_HTML 	AS 	informacionAdicionalHtml
+				, vwmtt.CODIGO_CATEGORIA    AS   codigoCategoria
+    	FROM VW_CON_TIPO_TRAMITE_LOCAL vwmtt
+    	
+	</sql>
+	<sql id="fragmentoSelectTipoTramiteLocalUA">
+        SELECT    vwmtt.id_tipo_tramite	 	AS	 idTipoTramite
+				, vwmtt.nombre				AS	 nombre
+				, vwmtt.descripcion			AS	 descripcion
+				, vwmtt.asunto				AS	 asunto
+				, vwmtt.indicador_tupa		AS	 indicadorTupa
+				, vwmtt.descripcion_indicador_tupa		AS	 descripcionIndicadorTupa
+				, vwmtt.id_grupo_local		AS	 idGrupoLocal
+				, vwmtt.codigo_local		AS	 codigoLocal
+				, vwmtt.nombre_local		AS	 nombreLocal
+				, vwmtt.sigla_local			AS   siglaLocal
+				, vwmtt.codigo_escuela		AS   codigoEscuela
+				, vwmtt.nombre_escuela		AS   nombreEscuela
+				, vwmtt.sigla_escuela		AS   siglaEscuela
+				, vwmtt.codigo_estado		AS	 codigoEstado
+				, vwmtt.nombre_estado		AS	 nombreEstado
+				, vwmtt.nombre_url			as nombreUrl
+				, vwmtt.INFORMACION_ADICIONAL_HTML 	AS 	informacionAdicionalHtml
+    	FROM VW_CON_TIPO_TRAMITE_LOCAL_UA vwmtt
+    	
+	</sql>
+
+	<sql id="fragmentoSelectTipoTramite">
+        SELECT   distinct vwmtt.id_tipo_tramite	 			AS	 idTipoTramite
+						, vwmtt.nombre						AS	 nombre
+						, vwmtt.descripcion					AS	 descripcion
+						, vwmtt.asunto						AS	 asunto
+						, vwmtt.indicador_tupa				AS	 indicadorTupa
+						, vwmtt.id_grupo_local				AS	 idGrupoLocal
+						, vwmtt.nombre_url					AS   nombreUrl
+						, vwmtt.codigo_proceso_sgd			AS	 codigoProcesoSgd
+						, vwmtt.observacion_tramite_sgd 	AS   observacionTramiteSgd
+						, vwmtt.numero_dias_atencion_sgd 	AS	 numeroDiasAtencionSgd
+						, vwmtt.indicador_exclusivo 		AS   indicadorExclusivo
+						, vwmtt.indicador_categoria 		AS   indicadorCategoria
+						, vwmtt.indicador_multiplicidad 	AS   indicadorMultiplicidad
+						, vwmtt.indicador_estandar		 	AS   indicadorEstandar
+						, vwmtt.indicador_destino		 	AS   indicadorDestino
+						
+    	FROM VW_MAN_TIPO_TRAMITE vwmtt
+	</sql>
+	
+
+
+	
+
+
+
+	<sql id="fragmentoSelectTramiteRemito">
+		SELECT	vwmtt.nombre_archivo				AS		nombreArchivo
+ 			,	vwmtt.id_tipo_tramite				AS		idTipoTramite 
+<!-- 			,	vwmtt.numero_folios					AS		numeroFolios -->
+			,	vwmtt.numero_dias_atencion			AS		numeroDiasAtencionRemito
+			,	vwmtt.tipo_documento				AS		tipoEmisor
+			,	vwmtt.codigo_local_sgd				AS		codigoLocalEmision
+			,	vwmtt.codigo_dependencia_emision	AS		codigoDependenciaEmision
+			,	vwmtt.codigo_empleado_emision		AS		codigoEmpleadoEmision
+			,	vwmtt.codigo_empleado_responsable	AS		codigoEmpleadoResponsable
+			,	vwmtt.numero_dni					AS		numeroDni
+			,	vwmtt.codigo_dependencia_mp			AS		codigoDependenciaMp
+			,	vwmtt.codigo_proceso_sgd			AS		codigoProceso
+			,	vwmtt.observacion_tramite			AS		observacionTramite
+			,	vwmtt.id_local						AS		codigoLocal
+			,	vwmtt.codigo_dependencia			AS		codigoDependencia
+			,	vwmtt.codigo_tipo_destino			AS		codigoTipoDestino
+			,	vwmtt.codigo_empleado_destino		AS		codigoEmpleado
+			,	vwmtt.codigo_prioridad				AS		codigoPrioridad
+			,	vwmtt.indicaciones					AS		indicaciones
+			,	vwmtt.codigo_motivo					AS		codigoMotivo
+			,	vwmtt.indicador_estandar			AS		indicadorEstandar
+		FROM VW_CON_EMPLEADO_TRAMITE vwmtt
+	</sql>
+	
+<!-- 	<resultMap type="RemitoTramite" id="mapTramiteReporte"> -->
+<!-- 		<id property="idTipoTramite" column="idTipoTramite"></id> -->
+<!-- 		<id property="codigoLocalEmision" column="codigoLocalEmision"></id> -->
+<!-- 		<id property="codigoEmpleadoResponsable" column="codigoEmpleadoResponsable"></id> -->
+<!-- 		<result property="nombreArchivo" column="nombreArchivo"></result>	 -->
+		
+<!-- 		<collection property="documentoEmi" javaType="DocumentoEmi"> -->
+<!-- 			<result property="numeroFolios" column="numeroFolios"></result>	 -->
+<!-- 			<result property="numeroDiasAtencionRemito" column="numeroDiasAtencionRemito"></result> -->
+<!-- 		</collection> -->
+		
+<!-- 		<collection property="remitenteEmi" javaType="RemitenteEmi">	 -->
+<!-- 			<result property="tipoDocumento" column="tipoDocumento"></result> -->
+<!-- 			<result property="codigoLocalEmision" column="codigoLocalEmision"></result> -->
+<!-- 			<result property="codigoDependenciaEmision" column="codigoDependenciaEmision"></result> -->
+<!-- 			<result property="codigoEmpleadoEmision" column="codigoEmpleadoEmision"></result> -->
+<!-- 			<result property="codigoEmpleadoResponsable" column="codigoEmpleadoResponsable"></result> -->
+<!-- 			<result property="codigoDependenciaMp" column="codigoDependenciaMp"></result> -->
+<!-- 		</collection>	 -->
+		
+<!-- 		<collection property="expedienteEmi" javaType="ExpedienteEmi">	 -->
+<!-- 			<result property="codigoProceso" column="codigoProceso"></result> -->
+<!-- 			<result property="observacionTramite" column="observacionTramite"></result> -->
+<!-- 		</collection>		 -->
+	
+<!-- 		<collection property="lsDestinatarios" javaType="List" ofType="Destinatarios"> -->
+<!-- 			<result property="codigoLocal" column="codigoLocal"></result> -->
+<!-- 			<result property="codigoDependencia" column="codigoDependencia"></result> -->
+<!-- 			<result property="codigoTipoDestino" column="codigoTipoDestino"></result> -->
+<!-- 			<result property="codigoEmpleado" column="codigoEmpleado"></result>	 -->
+<!-- 			<result property="codigoPrioridad" column="codigoPrioridad"></result>		 -->
+<!-- 			<result property="indicaciones" column="indicaciones"></result>	 -->
+<!-- 			<result property="codigoMotivo" column="codigoMotivo"></result>	 -->
+<!-- 		</collection>	 -->
+			
+<!-- 	</resultMap> -->
+
+
+
+	<resultMap type="RemitoTramiteResponse" id="mapTramiteReporteEmpleado">
+<!-- 		<id property="idTipoTramite" column="idTipoTramite"></id> -->
+<!-- 		<id property="codigoLocalEmision" column="codigoLocalEmision"></id> -->
+		
+		
+		<result property="idTipoTramite" column="idTipoTramite"></result>
+		<result property="codigoLocalEmision" column="codigoLocalEmision"></result>
+		<result property="nombreArchivo" column="nombreArchivo"></result>	
+		<result property="indicadorEstandar" column="indicadorEstandar"></result>	
+		
+		<collection property="documentoEmi" javaType="DocumentoEmiResponse">
+<!-- 			<result property="numeroFolios" column="numeroFolios"></result>	 -->
+			<result property="numeroDiasAtencionRemito" column="numeroDiasAtencionRemito"></result>
+		</collection>
+		
+		<collection property="remitenteEmi" javaType="RemitenteEmiResponse">	
+ 			<result property="tipoEmisor" column="tipoEmisor"></result> 
+<!-- 			<id property="codigoEmpleadoEmision" column="codigoEmpleadoEmision"></id> -->
+			<result property="codigoLocalEmision" column="codigoLocalEmision"></result>
+			<result property="codigoDependenciaEmision" column="codigoDependenciaEmision"></result>
+			<result property="codigoEmpleadoEmision" column="codigoEmpleadoEmision"></result>
+			<result property="codigoEmpleadoResponsable" column="codigoEmpleadoResponsable"></result>
+			<result property="codigoDependenciaMp" column="codigoDependenciaMp"></result>
+		</collection>	
+		
+		<collection property="expedienteEmi" javaType="ExpedienteEmiResponse">	
+			<result property="codigoProceso" column="codigoProceso"></result>
+			<result property="observacionTramite" column="observacionTramite"></result>
+		</collection>		
+	
+		<collection property="lsDestinatarios" javaType="List" ofType="DestinatariosResponse">
+			<result property="codigoLocal" column="codigoLocal"></result>
+			<result property="codigoDependencia" column="codigoDependencia"></result>
+			<result property="codigoTipoDestino" column="codigoTipoDestino"></result>
+			<result property="codigoEmpleado" column="codigoEmpleado"></result>	
+			<result property="codigoPrioridad" column="codigoPrioridad"></result>		
+			<result property="indicaciones" column="indicaciones"></result>	
+			<result property="codigoMotivo" column="codigoMotivo"></result>	
+		</collection>	
+		
+	</resultMap>
+
+	<select id="buscarTramitePorEmpleadoYTipo" resultMap="mapTramiteReporteEmpleado">
+		<include refid="fragmentoSelectTramiteRemito" />
+		<where>
+		<if test="numeroDni != '' and numeroDni != null">
+			numero_dni = #{numeroDni}
+		</if>	
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			AND id_tipo_tramite = #{idTipoTramite}
+		</if>
+		</where>
+	</select>
+
+
+<!-- 	<select id="buscarPorTramiteYLocal" resultMap="mapTramiteReporte"> -->
+<!-- 		<include refid="fragmentoSelectTramiteRemito" /> -->
+<!-- 		<where> -->
+<!-- 		<if test="idTipoTramite != '' and idTipoTramite != null"> -->
+<!-- 			vwmtt.id_tipo_tramite = #{idTipoTramite} -->
+<!-- 		</if> -->
+<!-- 		<if test="codigoLocal != '' and codigoLocal != null"> -->
+<!-- 			AND vwmtt.codigo_local = #{codigoLocal}  -->
+<!-- 		</if>	 -->
+<!-- 		</where> -->
+<!-- 	</select> -->
+	
+
+
+    <select id="buscarTodos" resultType="TipoTramiteResponse">
+		<include refid="fragmentoSelectTipoTramite" />
+	</select>
+
+	<select id="buscarPorId" resultType="TipoTramiteResponse">
+		<include refid="fragmentoSelectTipoTramite" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			id_tipo_tramite = #{idTipoTramite}
+		</if>
+		</where>
+		ORDER BY nombre
+	</select>
+    
+    <select id="buscarPorCriterio" resultType="TipoTramiteLocalResponse">
+		<include refid="fragmentoSelectTipoTramiteLocal" />
+		<where>
+		(codigo_local is not null OR id_grupo_local is not null)<!--	filtra los tramites que no tengan ningun local asignado -->
+		
+		<if test="codigoLocal != '' and codigoLocal != null">
+			AND codigo_local = #{codigoLocal} 
+<!-- 			OR indicador_tupa = '1') -->
+		</if>
+		<if test="indicadorTupa != '' and indicadorTupa != null">
+			AND indicador_tupa = #{indicadorTupa}
+		</if>
+		<if test="nombreUrl != '' and nombreUrl != null">
+			AND nombre_url = #{nombreUrl}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarFiltroTramite" resultType="TipoTramiteLocalResponse">
+		<include refid="fragmentoSelectTipoTramiteLocal" />
+		<where>
+		codigo_local is not null
+		<if test="codigoLocal != '' and codigoLocal != null">
+			AND codigo_local = #{codigoLocal}
+		</if>
+		<if test="codigoCategoria != null and codigoCategoria.length > 0">
+			AND CODIGO_CATEGORIA IN
+			<foreach item="item" index="index" collection="codigoCategoria" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+
+		</if>
+		<if test="indicadorTupa != null and indicadorTupa.length > 0">
+			AND indicador_tupa IN
+			<foreach item="item" index="index" collection="indicadorTupa" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="idGrupoLocal != null and idGrupoLocal.length > 0">
+			AND id_grupo_local IN
+			<foreach item="item" index="index" collection="idGrupoLocal" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorUrlYLocal" resultType="TipoTramiteLocalResponse">
+		<include refid="fragmentoSelectTipoTramiteLocal" />
+		<where>
+		<if test="nombreUrl != '' and nombreUrl != null">
+			nombre_url = #{nombreUrl}
+		</if>
+		<if test="codigoLocal != '' and codigoLocal != null">
+			AND codigo_local = #{codigoLocal} 
+		</if>		
+		</where>
+	</select>
+	
+	<select id="buscarPorUrlYLocalYEscuela" resultType="TipoTramiteLocalResponse">
+		<include refid="fragmentoSelectTipoTramiteLocalUA" />
+		<where>
+		<if test="nombreUrl != '' and nombreUrl != null">
+			nombre_url = #{nombreUrl}
+		</if>
+		<if test="codigoLocal != '' and codigoLocal != null">
+			AND codigo_local = #{codigoLocal} 
+		</if>	
+		<if test="codigoEscuela != '' and codigoEscuela != null">
+			AND codigo_escuela = #{codigoEscuela} 
+		</if>
+		</where>
+		
+		
+		
+		
+	</select>
+<!-- 	<select id="buscarPorLocal" resultType="TipoTramite"> -->
+<!-- 		<include refid="fragmentoSelectTipoTramiteLocal" /> -->
+<!-- 		<where> -->
+<!-- 			(codigo_local is not null OR id_grupo_local is not null)	filtra los tramites que no tengan ningun local asignado -->
+<!-- 		<if test="codigoLocal != '' and codigoLocal != null"> -->
+<!-- 			AND (codigo_local = #{codigoLocal}  -->
+<!-- 			OR indicador_tupa = '1'	) -->
+<!-- 		</if> -->
+<!-- 		</where> -->
+<!-- 	</select> -->
+	
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_TIPO_TRAMITE (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idTipoTramite,			jdbcType = INTEGER, mode = INOUT},
+             #{objetoMantenido.nombre,       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.descripcion,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.asunto, 		      		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.indicadorTupa, 			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idGrupoLocal,     		jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.nombreUrl, 	      		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoProcesoSgd, 		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.observacionTramiteSgd, 	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.numeroDiasAtencionSgd,	jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.indicadorExclusivo, 	    jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.indicadorCategoria, 	    jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.indicadorMultiplicidad, 	jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.indicadorEstandar, 		jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.indicadorDestino, 		jdbcType = INTEGER, mode = IN},
+			 #{usuario,                    				jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+</mapper>
+	

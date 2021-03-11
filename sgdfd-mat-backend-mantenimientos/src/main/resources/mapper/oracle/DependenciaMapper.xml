@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.DependenciaMapper">
+	
+	<sql id="fragmentoSelectDependencia">
+        SELECT   		  codigo_dependencia  			AS codigoDependencia
+						, codigo_local 					AS codigoLocal
+						, titulo 						AS titulo
+						, descripcion_corta 			AS descripcionCorta
+						, sigla 						AS sigla
+						, codigo_nivel 					AS codigoNivel
+						, codigo_dependencia_padre		AS codigoDependenciaPadre
+						, codigo_empleado_titular		AS codigoEmpleadoTitular
+						, codigo_cargo 					AS codigoCargo
+						, descripcion_cargo_completo 	AS descripcionCargoCompleto
+						, codigo_local_sgd 				AS codigoLocalSgd
+						, titulo_dep_padre 				AS tituloDependenciaPadre
+						, nombre_empleado 				AS nombreEmpleado
+						, nombre_local 				    AS nombreLocal
+    	FROM VW_MAN_DEPENDENCIA 
+	</sql>
+	
+	
+	<select id="buscarTodos" resultType="DependenciaResponse">
+		<include refid="fragmentoSelectDependencia" />
+	</select>
+	
+	<select id="buscarPorCodigoDependencia" resultType="DependenciaResponse">
+		<include refid="fragmentoSelectDependencia"/>
+		<where>
+		<if test="codigoDependencia != '' and codigoDependencia != null">
+			codigo_dependencia = #{codigoDependencia}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorCodigoLocalSgd" resultType="DependenciaResponse">
+		<include refid="fragmentoSelectDependencia"/>
+		<where>
+		<if test="codigoLocalSgd != '' and codigoLocalSgd != null">
+			codigo_local_sgd = #{codigoLocalSgd}
+		</if>
+		</where>
+	</select>
+	
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_MANTENIMIENTOS.PRC_MAN_DEPENDENCIA (
+		     #{modo,                   						jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoDependencia,			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.titulo,       				jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.descripcionCorta,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.sigla,       				jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoNivel,       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoDependenciaPadre,      jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoEmpleadoTitular,       jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoCargo,       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.descripcionCargoCompleto,    jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoLocalSgd,       		jdbcType = VARCHAR, mode = IN},
+			 #{objetoMantenido.usuario,                 	jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+	
+</mapper>	

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_journalDetalle" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8ab14550-a879-4c6c-aa28-248cd33a5bae">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="1.6105100000000043"/>
+	<parameter name="numeroDocumento" class="java.lang.String"/>
+	<parameter name="codigoAlumno" class="java.lang.String"/>
+	<parameter name="nombreCompleto" class="java.lang.String"/>
+	<parameter name="numeroSolicitud" class="java.lang.Integer"/>
+	<parameter name="tramite" class="java.lang.String"/>
+	<parameter name="fechaSolicitud" class="java.util.Date"/>
+	<parameter name="estadoSolicitud" class="java.lang.String"/>
+	<parameter name="fechaAprobacion" class="java.util.Date"/>
+	<parameter name="estadoTramite" class="java.lang.String"/>
+	<parameter name="fechaGeneracion" class="java.util.Date"/>
+	<parameter name="numeroExpediente" class="java.lang.String"/>
+	<parameter name="tipoDocumento" class="java.lang.String"/>
+	<parameter name="tipoSolicitante" class="java.lang.String"/>
+	<parameter name="solicitante" class="java.lang.String"/>
+	<parameter name="nombreRequisito" class="java.lang.String"/>
+	<parameter name="url" class="java.lang.String"/>
+	<parameter name="fechaEnvio" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="idRequisito" class="java.lang.Integer"/>
+	<field name="nombreRequisito" class="java.lang.String"/>
+	<field name="estadoRequisito" class="java.lang.String"/>
+	<background>
+		<band height="6" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="241" splitType="Stretch">
+			<line>
+				<reportElement x="10" y="210" width="538" height="1" uuid="18d5814d-8ca8-4948-bfd2-aa9dc1fd632e"/>
+			</line>
+			<staticText>
+				<reportElement x="137" y="0" width="280" height="40" uuid="f7dea5af-a81f-45f3-b233-29f7bda6c7cd">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[SISTEMA DE GESTIÓN DOCUMENTAL CON FIRMA DIGITAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="117" y="40" width="320" height="15" uuid="86bd9bdf-f221-4768-ab2c-89d7637ee70d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Módulo de Atención de Trámites]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="117" y="60" width="320" height="15" uuid="7a35c4c8-e20b-43e3-888a-23fa8a75f6fb"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="11" isBold="true" isItalic="false" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ANEXO]]></text>
+			</staticText>
+			<image>
+				<reportElement x="47" y="0" width="70" height="75" uuid="6ef3a73c-14cf-4fd2-a6a5-2477ecbb55ef"/>
+				<imageExpression><![CDATA["unmsm.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="437" y="0" width="69" height="75" uuid="000f5f88-6cee-4159-978b-01ed01b70624"/>
+				<imageExpression><![CDATA["LOG_CP.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="4" y="166" width="100" height="15" uuid="f801d611-f993-496b-b1de-b9c94804c724">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Trámite:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="90" width="246" height="25" uuid="2c4de329-8f6b-48aa-b3c3-a7188ddd692b">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos de la Solicitud]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="124" width="100" height="14" uuid="073af5d1-f28c-48ec-8bc4-24a77e9da649"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[N° Solicitud:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="104" y="124" width="166" height="14" uuid="74d0a2da-f469-489b-86a0-e9f62acef83a"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding=""/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numeroSolicitud}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="104" y="166" width="444" height="14" uuid="3fa08079-4ff4-497b-9cf4-d7e5ac320e91"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding=""/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tramite}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="214" width="270" height="25" uuid="06311276-ef95-4810-ba80-d1867f5b055f">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos del Anexo]]></text>
+			</staticText>
+			<line>
+				<reportElement x="10" y="75" width="538" height="1" uuid="7bda56d3-1c2e-44a2-a202-c3026467ac71">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="4" y="187" width="100" height="14" uuid="28a530a1-16d1-4d53-b01f-90e428a11636"/>
+				<text><![CDATA[Solicitante]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="105" y="186" width="443" height="15" uuid="cb92b6a5-6d76-46fa-9ab5-9bc50f589932"/>
+				<textFieldExpression><![CDATA[$P{solicitante}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="286" y="124" width="100" height="14" uuid="072d19e8-ef57-41bc-9b5a-c2df8cb7a869"/>
+				<text><![CDATA[N° Expediente:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="390" y="124" width="158" height="14" uuid="1dfe006f-21aa-44d7-a43b-248872279398"/>
+				<textFieldExpression><![CDATA[$P{numeroExpediente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="142" width="100" height="18" uuid="7b7f248d-1e04-4350-a502-82889c1f1c05"/>
+				<text><![CDATA[Tipo Documento:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="105" y="143" width="162" height="16" uuid="e33f3daa-a332-493e-8660-09e47fb808c2"/>
+				<textFieldExpression><![CDATA[$P{tipoDocumento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="286" y="143" width="100" height="16" uuid="0446f23b-ede3-4746-9b73-ab6fceb91cec"/>
+				<text><![CDATA[Numero Documento:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="390" y="143" width="158" height="16" uuid="dc58c09c-627e-4f3d-9f03-bd6e88cb4a89"/>
+				<textFieldExpression><![CDATA[$P{numeroDocumento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="174" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="7" width="100" height="23" uuid="097cdcf8-8be7-4f22-bf4c-0309e452ec70"/>
+				<text><![CDATA[Nombre: ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="102" y="7" width="452" height="22" uuid="a4ce1c56-7122-4623-a366-c0deebb22450"/>
+				<textFieldExpression><![CDATA[$P{nombreRequisito}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="59" width="100" height="20" uuid="d31f86b2-ea23-4ad9-bdd9-ec4bca9f85e2"/>
+				<text><![CDATA[Enlace:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="102" y="59" width="452" height="110" uuid="396cd03d-132e-4cd4-8240-54c8014d4e3b"/>
+				<textFieldExpression><![CDATA[$P{url}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="35" width="100" height="20" uuid="e13db5dc-8bc0-4334-be14-22910b8990ec"/>
+				<text><![CDATA[Fecha Envio:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="103" y="36" width="286" height="20" uuid="f25f31e2-753e-48de-aa18-df4e2cd74ec2"/>
+				<textFieldExpression><![CDATA[$P{fechaEnvio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="81" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="32" width="556" height="30" backcolor="#E6E8E9" uuid="81274d96-9bee-4d68-b4c1-58e33269ee56"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Universidad Nacional Mayor de San Marcos
+Av. Universitaria /Calle Germán Amézaga 375. Edificio Jorge Basadre Ciudad Universitaria, Lima 1.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="256" y="5" width="176" height="20" uuid="1f36e6d6-9873-4c90-acbe-e54d6b343d21"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Generación:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="437" y="6" width="108" height="20" uuid="2566a2d5-8a19-43eb-b01a-e43369620f1e"/>
+				<textFieldExpression><![CDATA[$P{fechaGeneracion}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="28" width="556" height="1" uuid="b4bea201-4971-4f43-882f-3829f7833f51">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

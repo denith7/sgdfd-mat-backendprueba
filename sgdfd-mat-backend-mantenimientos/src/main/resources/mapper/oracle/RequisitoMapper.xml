@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.RequisitoMapper">
+
+	<sql id="fragmentoSelectRequisitoPorTiporTramite">
+	
+        SELECT    vwttr.id_requisito	 	AS	 idRequisito
+				, vwttr.nombre			AS	 nombre
+				, vwttr.descripcion		AS	 descripcion
+				, vwttr.tipo			 	AS 	 tipo
+				, vwttr.id_tipo_tramite 	AS 	 idTipoTramite
+				, vwttr.numero_archivos 	AS 	 numeroArchivos
+				, vwttr.formato           AS   formato
+				, vwttr.indicador_sgd 	AS 	 indicadorSgd
+				, vwttr.tamanio_maximo_kb AS 	 tamanioMaximoKb
+				, vwttr.indicador_obligatorio AS indicadorObligatorio
+				, vwttr.nombre_plantilla  AS  nombrePlantilla
+				, vwttr.archivo_plantilla AS  archivoPlantilla
+    	FROM VW_CON_TIPO_TRAMITE_REQUISITO vwttr
+    	
+	</sql>
+	
+	<sql id="fragmentoSelectRequisito">
+        SELECT 
+        		  vwr.id_requisito		AS	 idRequisito
+				, vwr.nombre			AS	 nombre
+				, vwr.descripcion		AS	 descripcion
+				, vwr.tipo			 	AS 	 tipo
+				, vwr.abreviatura      AS   abreviatura
+				, vwr.numero_archivos 	AS 	 numeroArchivos
+				, vwr.formato          AS   formato
+				, vwr.indicador_sgd 	AS 	 indicadorSgd
+				, vwr.tamanio_maximo_kb AS  tamanioMaximoKb
+				, vwr.indicador_obligatorio AS indicadorObligatorio
+				, vwr.nombre_plantilla AS nombrePlantilla
+				, vwr.archivo_plantilla AS archivoPlantilla
+    	FROM VW_MAN_REQUISITO vwr
+	</sql>
+	
+	<sql id="fragmentoSelectRequisitoPorTramiteyLocal">
+        SELECT  	vwttlq.codigo_local		AS   codigoLocal  
+        		, vwttlq.id_requisito	 	AS	 idRequisito
+				, vwttlq.nombre				AS	 nombre
+				, vwttlq.descripcion		AS	 descripcion
+				, vwttlq.tipo			 	AS 	 tipo
+				, vwttlq.id_tipo_tramite 	AS 	 idTipoTramite
+				, vwttlq.numero_archivos 	AS 	 numeroArchivos
+				, vwttlq.formato           	AS   formato
+				, vwttlq.indicador_sgd 		AS 	 indicadorSgd
+				, vwttlq.tamanio_maximo_kb 	AS 	 tamanioMaximoKb
+				, vwttlq.indicador_obligatorio AS indicadorObligatorio
+				, vwttlq.nombre_plantilla 		AS 	  nombrePlantilla
+				, vwttlq.archivo_plantilla 		AS 	  archivoPlantilla
+    	FROM VW_CON_TIPO_TRAMITE_LOCAL_REQ vwttlq
+	</sql>
+
+	<select id="buscarTodos" resultType="RequisitoResponse">
+		<include refid="fragmentoSelectRequisito" />
+		ORDER BY vwr.id_requisito
+	</select>
+	
+	<select id="buscarPorIdRequisito" resultType="RequisitoResponse">
+		<include refid="fragmentoSelectRequisitoPorTiporTramite" />
+		<where>
+		<if test="idRequisito != '' and idRequisito != null">
+			id_requisito = #{idRequisito}
+		</if>
+		</where>
+	</select>
+	
+		
+	<select id="buscarPorIdTipoTramite" resultType="RequisitoResponse">
+		<include refid="fragmentoSelectRequisitoPorTiporTramite" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			id_tipo_tramite = #{idTipoTramite}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorIdTipoTramiteYCodigoLocal" resultType="RequisitoResponse">
+		<include refid="fragmentoSelectRequisitoPorTramiteyLocal" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			id_tipo_tramite = #{idTipoTramite}
+		</if>
+		<if test="codigoLocal != '' and codigoLocal != null">
+			AND codigo_local = #{codigoLocal}
+		</if>
+		</where>
+	</select>
+	
+
+	<select id="mantener" statementType="CALLABLE">
+		{ 
+		call PKG_MANTENIMIENTOS.PRC_MAN_REQUISITO (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idRequisito,				jdbcType = INTEGER, mode = INOUT},
+             #{objetoMantenido.nombre,       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.descripcion,				jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.tipo,	       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.numeroArchivos,	       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.formato,	       			jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.indicadorSgd,	       	jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.tamanioMaximoKb,	       	jdbcType = INTEGER, mode = IN},
+<!--              #{objetoMantenido.indicadorObligatorio,   	jdbcType = INTEGER, mode = IN}, -->
+             #{objetoMantenido.nombrePlantilla,   		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.archivoPlantilla,   		jdbcType = BLOB, mode = IN},
+			 #{usuario,                   				jdbcType = VARCHAR, mode = IN}
+			 
+             )
+         }
+	</select>
+
+	
+</mapper>
+
+	
+

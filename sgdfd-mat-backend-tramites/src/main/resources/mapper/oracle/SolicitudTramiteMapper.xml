@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.tramites.mapper.SolicitudTramiteMapper">
+
+	 <resultMap id="solicitudTramiteRequiResultMap" 		type="SolicitudTramiteResponse">
+	    <id property="idSolicitudTramite" 			column="idSolicitudTramite" />
+	    <result property="fechaSolicitud" 			column="fechaSolicitud" />
+	    <result property="fechaAprobacion" 			column="fechaAprobacion" />
+	    <result property="tipoDocumentoIdentidad" 	column="tipoDocumentoIdentidad" />
+	    <result property="numeroDocumentoIdentidad" column="numeroDocumentoIdentidad" />
+	    <result property="apellidoPaterno" 			column="apellidoPaterno" />
+	    <result property="apellidoMaterno" 			column="apellidoMaterno" />
+	    <result property="nombres" 					column="nombres" />
+	    <result property="direccionDomicilio" 		column="direccionDomicilio" />
+	    <result property="asunto" 					column="asunto" />
+	    <result property="justificacion" 			column="justificacion" />
+	    <result property="codigoLocal" 				column="codigoLocal" />
+	    <result property="nombreLocal" 				column="nombreLocal" />
+	    <result property="idTipoTramite" 			column="idTipoTramite" />
+	    <result property="nombreTipoTramite" 		column="nombreTipoTramite" />
+	    <result property="nombreUrl" 				column="nombreUrl" />
+	    <result property="indicadorTupa" 			column="indicadorTupa" />
+	    <result property="codigoEstado" 			column="codigoEstado" />
+	    <result property="descripcionEstado" 		column="descripcionEstado" />
+	    <result property="numeroExpediente" 		column="numeroExpediente" />
+	    
+	    <collection property="requisitos" javaType="List" ofType="SolicitudTramiteRequisitoResponse">
+	    	
+		    <id		property="idRequisito" 				column="idRequisito"/>
+		    <id		property="idItem" 					column="idItem"/>
+		    <result property="nombreRequisito" 			column="nombreRequisito"/>
+		    <result property="estadoRequisito" 			column="estadoRequisito"/>
+		    <result property="descripcionEstadoRequisito" 			column="descripcionEstadoRequisito"/>
+		    <result property="numeroOrdenRequisito" 	column="numeroOrdenRequisito"/>
+		     <result property="valorRequisito" 			column="valorRequisito"/>
+		    <result property = "observacion" 			column = "observacion"/>
+		    <result property = "indicadorSgd" 			column = "indicadorSgd"/>
+		    <result property = "tipo" 					column = "tipo"/>
+		    <result property = "formato" 				column = "formato"/>
+		    <result property = "tamanioMaximoKb" 	    column = "tamanioMaximoKb"/>
+		    <result property = "numeroArchivos" 		column = "numeroArchivos"/>
+		    <result property="archivoAdjuntoRequisito" 	column="archivoAdjuntoRequisito"/>
+		</collection>
+	    
+	  </resultMap>
+	  
+	 <resultMap id="solicitudTramiteResultMap" 		type="SolicitudTramiteResponse">
+	    <id property="idSolicitudTramite" 			column="idSolicitudTramite" />
+	    <result property="fechaSolicitud" 			column="fechaSolicitud" />
+	    <result property="fechaAprobacion" 			column="fechaAprobacion" />
+	    <result property="tipoDocumentoIdentidad" 	column="tipoDocumentoIdentidad" />
+	    <result property="numeroDocumentoIdentidad" column="numeroDocumentoIdentidad" />
+	    <result property="asunto" 					column="asunto" />
+	    <result property="justificacion" 			column="justificacion" />
+	    <result property="codigoLocal" 				column="codigoLocal" />
+	    <result property="nombreLocal" 				column="nombreLocal" />
+	    <result property="idTipoTramite" 			column="idTipoTramite" />
+	    <result property="nombreTipoTramite" 		column="nombreTipoTramite" />
+	    <result property="indicadorTupa" 			column="indicadorTupa" />
+	    <result property="codigoEstado" 			column="codigoEstado" />
+	    <result property="descripcionEstado" 		column="descripcionEstado" />
+	  </resultMap>
+	  
+	  <resultMap id = "reporteSolicitudTramiteResultMap" type = "ReporteSolicitudTramiteResponse">
+	  	<id property = "idSolicitudTramite"			     column = "idSolicitud"/>
+	  	<id property = "idSolicitudTramiteReporte"			     column = "idSolicitudReporte"/>
+	  	<result property = "tipoDocumentoIdentidad"		 column = "tipoDocumentoIdentidad"/>
+	  	<result property = "numeroDocumentoIdentidad"	 column = "numeroDocumentoIdentidad"/>
+	  	<result property = "nombreCompleto"		         column = "nombreCompleto"/>
+	  	<result property = "fechaSolicitud"		         column = "fechaSolicitud"/> 
+	  	<result property = "fechaAprobacion"		     column = "fechaAprobacion"/>
+	  	<result property = "numeroExpediente"		     column = "numeroExpediente"/>
+	  	<result property = "estadoSolicitud"		     column = "estadoSolicitud"/>
+	  	<result property = "estadoTramite"		    	 column = "estadoTramite"/>
+	  	<result property = "nombreLocal"		    	 column = "nombreLocal"/>
+	  	<result property = "tipoTramite"		    	 column = "tipoTramite"/>
+	  	<result property = "codigoAlumno"		    	 column = "codigoAlumno"/>
+	  	<result property = "facultadAlumno"		    	 column = "facultad"/>
+	  	<result property = "tipoDocumento"		     	 column = "tipoDocumento"/>
+	  	<result property = "domicilio"		     		 column = "domicilio"/>
+	  	<result property = "celular"		     		 column = "celular"/>
+	  	<result property = "telefono"		     		 column = "telefono"/>
+	  	<result property = "correoInstitucional"		 column = "correoInstitucional"/>
+	  	<result property = "correoPersonal"		 		 column = "correoPersonal"/>
+	  	<result property = "tipoSolicitante"		 	 column = "tipoSolicitante"/>
+	  	<result property = "escuelaAlumno"		    	 column = "escuelaProfesional"/>
+	  	<result property = "especialidadAlumno"		     column = "especialidad"/>
+	  	
+	  	
+	  	
+	  	<collection property="requisitos" javaType="List" ofType="ReporteSolicitudTramiteRequisitoResponse">
+		    <id		property = "idRequisito" 				column = "idRequisito"/>
+		    <result property = "nombre" 			        column = "nombreTipoRequisito"/>
+		    <result property = "formato" 			    	column = "formato"/>
+		    <result property = "estado" 			        column = "estadoRequisito"/>
+		    
+		</collection>
+	  </resultMap>
+
+	<sql id="fragmentoSelectSolicitudTramiteRequi">
+
+		  SELECT    vwcst.id_solicitud_tramite			as idSolicitudTramite
+	              , vwcst.fecha_solicitud				as fechaSolicitud
+	              , vwcst.fecha_aprobacion				as fechaAprobacion
+	              , vwcst.tipo_documento_identidad		as tipoDocumentoIdentidad
+	              , vwcst.numero_documento_identidad	as numeroDocumentoIdentidad
+	              , vwcst.apellido_paterno				as apellidoPaterno
+	              , vwcst.apellido_materno				as apellidoMaterno
+	              , vwcst.nombres						as nombres
+	              , vwcst.direccion_domicilio			as direccionDomicilio
+	              , vwcst.asunto						as asunto
+	              , vwcst.justificacion					as justificacion
+	              , vwcst.codigo_local					as codigoLocal
+	              , vwcst.nombre_local					as nombreLocal
+	              , vwcst.id_tipo_tramite				as idTipoTramite
+	              , vwcst.nombre_tipo_tramite			as nombreTipoTramite
+	              , vwcst.nombre_url					as nombreUrl
+	              , vwcst.indicador_tupa				as indicadorTupa
+	              , vwcst.codigo_estado					as codigoEstado
+	              , vwcst.descripcion_estado			as descripcionEstado
+	              , vwcst.id_item						as idItem
+	              , vwcst.indicador_sgd 				as indicadorSgd
+	              , vwcst.id_requisito					as idRequisito
+	              , vwcst.nombre_requisito				as nombreRequisito
+	              , vwcst.numero_orden					as numeroOrden
+	              , vwcst.observacion					as observacion
+	              , vwcst.estado_requisito 				as estadoRequisito
+	              , vwcst.descripcion_estado_requisito	as descripcionEstadoRequisito
+	              , vwcst.archivo_adjunto_requisito		as archivoAdjuntoRequisito
+	              , vwcst.valor_requisito				as valorRequisito
+	              
+	              , vwcst.tipo							as tipo
+	              , vwcst.formato						as formato
+	              , vwcst.tamanio_maximo_kb				as tamanioMaximoKb
+	              , vwcst.numero_archivos				as numeroArchivos
+	              , vwcst.numero_expediente				as numeroExpediente
+<!-- 	              , vwcst.nombre_completo_alumno		as nombreCompleto -->
+	              
+	      FROM VW_CON_SOLICITUD_TRAMITE_REQUI vwcst
+	</sql>
+	
+	<sql id="fragmentoSelectSolicitudTramite">
+		  SELECT    vwcst.id_solicitud_tramite			as idSolicitudTramite
+	              , vwcst.fecha_solicitud				as fechaSolicitud
+	              , vwcst.fecha_aprobacion				as fechaAprobacion
+	              , vwcst.tipo_documento_identidad		as tipoDocumentoIdentidad
+	              , vwcst.numero_documento_identidad	as numeroDocumentoIdentidad
+	              , vwcst.numero_expediente				as numeroExpediente
+	              , vwcst.asunto						as asunto
+	              , vwcst.justificacion					as justificacion
+	              , vwcst.codigo_local					as codigoLocal
+	              , vwcst.nombre_local					as nombreLocal
+	              , vwcst.id_tipo_tramite				as idTipoTramite
+	              , vwcst.nombre_tipo_tramite			as nombreTipoTramite
+	              , vwcst.indicador_tupa				as indicadorTupa
+	              , vwcst.codigo_estado					as codigoEstado
+	              , vwcst.descripcion_estado			as descripcionEstado
+	              
+	              , vwcst.nombre_completo_alumno		as nombreCompleto
+	              , vwcst.nombres						as nombres
+	              , vwcst.apellido_paterno				as apellidoPaterno
+	              , vwcst.apellido_materno				as apellidoMaterno
+	              , vwcst.estado_tramite				as estadoTramite
+				  , vwcst.facultad						as facultadAlumno
+				  , vwcst.escuela_profesional			as escuelaAlumno
+				  , vwcst.codigo_escuela				as codigoEscuela
+				  , vwcst.especialidad					as especialidadAlumno
+				  , vwcst.codigo_especialidad			as codigoEspecialidad
+	      FROM VW_CON_SOLICITUD_TRAMITE vwcst
+	</sql>
+	
+	<sql id="fragmentoSelectSolicitudTramiteGeneral">
+		  SELECT    vwcst.id_solicitud_tramite			as idSolicitudTramite
+	              , vwcst.fecha_solicitud				as fechaSolicitud
+	              , vwcst.fecha_aprobacion				as fechaAprobacion
+	              , vwcst.tipo_documento_identidad		as tipoDocumentoIdentidad
+	              , vwcst.numero_documento_identidad	as numeroDocumentoIdentidad
+	              , vwcst.asunto						as asunto
+	              , vwcst.justificacion					as justificacion
+	              , vwcst.codigo_local					as codigoLocal
+	              , vwcst.nombre_local					as nombreLocal
+	              , vwcst.codigo_local_solicitante   	as codigoLocalSolicitante
+	              , vwcst.nombre_local_solicitante		as nombreLocalSolicitante
+	              , vwcst.correo_institucional			as correoInstitucional
+	              , vwcst.id_tipo_tramite				as idTipoTramite
+	              , vwcst.nombre_tipo_tramite			as nombreTipoTramite
+	              , vwcst.indicador_tupa				as indicadorTupa
+	              , vwcst.codigo_estado					as codigoEstado
+	              , vwcst.descripcion_estado			as descripcionEstado
+	              , vwcst.codigo_solicitante			as codigoSolicitante
+	              , vwcst.nombre_completo_alumno		as nombreCompleto
+	              , vwcst.estado_tramite				as estadoTramite
+				  , vwcst.facultad						as facultadAlumno
+				  , vwcst.escuela_profesional			as escuelaAlumno
+				  , vwcst.especialidad					as especialidadAlumno
+	      FROM VW_CON_SOLICITUD_TRAMITE_GNRAL vwcst
+	</sql>
+	
+	
+	<sql id = "fragmentoReporteSolicitudTramite">
+		  SELECT    vwcstrf.id_solicitud					as idSolicitud
+		 		  , vwcstrf.id_solicitud_reporte			as idSolicitudReporte
+		  		  , vwcstrf.tipo_documento_identidad		as tipoDocumentoIdentidad
+		  		  , vwcstrf.numero_documento_identidad      as numeroDocumentoIdentidad
+		  		  , vwcstrf.nombre_completo					as nombreCompleto
+		  		  , vwcstrf.fecha_solicitud                 as fechaSolicitud
+		  		  , vwcstrf.fecha_aprobacion				as fechaAprobacion
+		  		  , vwcstrf.numero_expediente				as numeroExpediente
+		  		  , vwcstrf.estado_solicitud				as estadoSolicitud
+		  		  , vwcstrf.estado_tramite					as estadoTramite
+		  		  , vwcstrf.nombre_local					as nombreLocal
+		  		  , vwcstrf.tipo_tramite					as tipoTramite
+		  		  , vwcstrf.id_requisito					as idRequisito
+		  		  , vwcstrf.nombre_tipo_requisito			as nombreTipoRequisito
+		  		  , vwcstrf.tipo_subida_requisito			as tipoSubidaRequisito		  		  
+		  		  , vwcstrf.numero_archivos_esperado		as numeroArchivosEsperado
+		  		  , vwcstrf.formato							as formato
+		  		  , vwcstrf.codigo_alumno					as codigoAlumno
+		  		  , vwcstrf.facultad						as facultad
+		  		  , vwcstrf.tipo_documento					as tipoDocumento
+		  		  , vwcstrf.domicilio						as domicilio
+		  		  , vwcstrf.celular							as celular
+		  		  , vwcstrf.telefono						as telefono
+		  		  , vwcstrf.correo_institucional			as correoInstitucional
+		  		  , vwcstrf.correo_personal					as correoPersonal
+		  		  , vwcstrf.tipo_solicitante				as tipoSolicitante
+		  		  ,	vwcstrf.escuela_profesional				as escuelaProfesional
+		  		  , vwcstrf.especialidad                    as especialidad
+		  		 
+		  		  
+		  		  
+		  	 FROM VW_CON_SOLI_TRAM_REPORTE_FUT vwcstrf
+	</sql>
+	
+	<sql id="fragementoSolicitudTramiteNotificacion">
+		SELECT	vwcstsn.id_tramite_seguimiento		as idTramiteSeguimiento
+			  ,	vwcstsn.id_solicitud_tramite		as idSolicitudTramite
+			  ,	vwcstsn.fecha_solicitud				as fechaSolicitud
+			  ,	vwcstsn.asunto						as asunto
+			  , vwcstsn.codigo_local				as codigoLocal
+			  , vwcstsn.local_nombre				as localNombre
+			  , vwcstsn.id_tipo_tramite				as idTipoTramite
+			  , vwcstsn.tipo_tramite_nombre			as tipoTramiteNombre
+			  , vwcstsn.estado_tramite				as estadoTramite
+			  , vwcstsn.estado_nombre				as estadoNombre
+			  , vwcstsn.fecha_registro_estado		as fechaRegistroEstado
+			  , vwcstsn.numero_documento_identidad	as numeroDocumento
+			  , vwcstsn.estado_notif_leido			as estadoNotifLeido
+			  
+		FROM VW_CON_SOL_TRA_SEGUIM_NOTIF vwcstsn		
+	</sql>
+	
+	
+	<sql id="fragmentoSelectBandejaSolicitudes">
+		  SELECT    vwcst.id_solicitud_tramite			as idSolicitudTramite
+	              , vwcst.fecha_solicitud				as fechaSolicitud
+	              , vwcst.fecha_aprobacion				as fechaAprobacion
+	              , vwcst.tipo_documento_identidad		as tipoDocumentoIdentidad
+	              , vwcst.numero_documento_identidad	as numeroDocumentoIdentidad
+	              , vwcst.numero_expediente				as numeroExpediente
+	              , vwcst.asunto						as asunto
+	              , vwcst.justificacion					as justificacion
+	              , vwcst.codigo_local					as codigoLocal
+	              , vwcst.nombre_local					as nombreLocal
+	              , vwcst.id_tipo_tramite				as idTipoTramite
+	              , vwcst.nombre_tipo_tramite			as nombreTipoTramite
+	              , vwcst.indicador_tupa				as indicadorTupa
+	              , vwcst.codigo_estado					as codigoEstado
+	              , vwcst.descripcion_estado			as descripcionEstado
+	              
+	              , vwcst.nombre_completo_alumno		as nombreCompleto
+	              , vwcst.nombres						as nombres
+	              , vwcst.apellido_paterno				as apellidoPaterno
+	              , vwcst.apellido_materno				as apellidoMaterno
+	              , vwcst.estado_tramite				as estadoTramite
+				  , vwcst.facultad						as facultadAlumno
+				  , vwcst.escuela_profesional			as escuelaAlumno
+				  , vwcst.codigo_escuela				as codigoEscuela
+				  , vwcst.especialidad					as especialidadAlumno
+				  , vwcst.codigo_especialidad			as codigoEspecialidad
+	      FROM VW_CON_BANDEJA_SOLICITUDES vwcst
+	</sql>
+	
+	<select id="buscarTodosSolicitudTramite" resultMap="solicitudTramiteResultMap">
+		<include refid="fragmentoSelectSolicitudTramite" />
+	</select>
+	
+	<select id="buscarPorId" resultMap="solicitudTramiteRequiResultMap">
+		<include refid="fragmentoSelectSolicitudTramiteRequi" />
+		<where>
+		<if test="idSolicitudTramite != '' and idSolicitudTramite != null">
+			id_solicitud_tramite = #{idSolicitudTramite}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorIdYNumeroDocumento" resultMap="solicitudTramiteRequiResultMap">
+		<include refid="fragmentoSelectSolicitudTramiteRequi" />
+		<where>
+		<if test="idSolicitudTramite != '' and idSolicitudTramite != null">
+			id_solicitud_tramite = #{idSolicitudTramite}
+		</if> 
+		<if test="numeroDocumento != '' and numeroDocumento != null">
+			AND  numero_documento_identidad = #{numeroDocumento}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorNumeroDocumento" resultType="SolicitudTramiteResponse">
+		<include refid="fragmentoSelectSolicitudTramiteGeneral" />
+		<where>
+		<if test="numeroDocumento != '' and numeroDocumento != null">
+			numero_documento_identidad = #{numeroDocumento}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorNumeroDocumentoTipoTramite" resultType="SolicitudTramiteResponse">
+		<include refid="fragmentoSelectSolicitudTramiteGeneral" />
+		<where>
+		<if test="numeroDocumento != '' and numeroDocumento != null">
+			numero_documento_identidad = #{numeroDocumento}
+		</if>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			AND id_tipo_tramite = #{idTipoTramite}
+		</if>	
+		</where>
+	</select>
+	
+	<select id="buscarPorLocal" resultType="SolicitudTramiteResponse">
+		<include refid="fragmentoSelectSolicitudTramite" />
+		<where>
+		<if test="codigoLocal != '' and codigoLocal != null">
+			codigo_local = #{codigoLocal}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorLocalEstado" resultType="SolicitudTramiteResponse">
+		<include refid="fragmentoSelectBandejaSolicitudes" />
+		<where>
+		<if test="codigoLocal != '' and codigoLocal != null">
+			AND codigo_local = #{codigoLocal}
+		</if>
+		</where>
+	</select>
+	
+	<select id="filtrarSolicitudTramite" resultType="SolicitudTramiteResponse">
+		<include refid="fragmentoSelectSolicitudTramite" />
+		<where>
+			vwcst.codigo_local = #{codigoLocal}
+			<if test="idSolicitudTramite != '' and idSolicitudTramite != null">
+				AND vwcst.id_solicitud_tramite = #{idSolicitudTramite}
+			</if>
+			<if test="idTipoTramite != '' and idTipoTramite != null">
+				AND vwcst.id_tipo_tramite = #{idTipoTramite}
+			</if>
+			<if test="fechaInicio != '' and fechaInicio != null and fechaFin != '' and fechaFin != null">
+		 		AND TRIM(vwcst.fecha_solicitud) BETWEEN to_date(#{fechaInicio}) AND to_date(#{fechaFin})
+			</if>
+			<if test="numeroDocumento != null and numeroDocumento !='' ">
+				AND TRIM(vwcst.numero_documento_identidad) = #{numeroDocumento}
+			</if>
+			<if test="numeroExpediente != null and numeroExpediente !='' ">
+				AND REGEXP_LIKE ( TRIM(vwcst.numero_expediente) , #{numeroExpediente} )
+			</if>
+			<if test="nombres != '' and nombres != null"> 
+		 		AND  REGEXP_LIKE ( UPPER ( TRIM(vwcst.nombres) ) , UPPER ( #{nombres} ))
+			</if>
+			<if test="apellidoPaterno != '' and apellidoPaterno != null "> 
+				AND REGEXP_LIKE ( UPPER ( TRIM(vwcst.apellido_paterno) ) , UPPER ( #{apellidoPaterno} ))	
+			</if>		
+				
+			<if test="apellidoMaterno != '' and apellidoMaterno != null "> 
+				AND REGEXP_LIKE ( UPPER ( TRIM(vwcst.apellido_materno) ) , UPPER ( #{apellidoMaterno} ))
+			</if>
+			<if test="codigoEscuela != '' and codigoEscuela != null "> 
+				AND vwcst.codigo_escuela = #{codigoEscuela} 			
+			</if>
+			<if test="codigoEspecialidad != '' and codigoEspecialidad != null "> 
+				AND vwcst.codigo_especialidad = #{codigoEspecialidad} 			
+			</if>
+			<if test="codigoEstado != '' and codigoEstado != null "> 
+				AND vwcst.codigo_estado = #{codigoEstado} 			
+			</if>	
+			
+				
+			
+		</where>
+	</select>
+	
+	<select id="buscarPorTipoTramiteYLocal" resultType="SolicitudTramiteResponse">
+		<include refid="fragmentoSelectSolicitudTramite" />
+		<where>
+		<if test="idTipoTramite != '' and idTipoTramite != null">
+			id_tipo_tramite = #{idTipoTramite}
+		</if>
+		<if test="codigoLocal != '' and codigoLocal != null">
+			AND codigo_local = #{codigoLocal}
+		</if>
+		</where>
+	</select>
+	
+	<select id = "buscarPorCriterio" resultType = "SolicitudTramiteResponse">
+		<include refid="fragmentoSelectSolicitudTramiteGeneral" />
+		<where>
+		<if test="idSolicitudTramite != '' and idSolicitudTramite != null">
+			id_solicitud_tramite = #{idSolicitudTramite}
+		</if> 
+		<if test="numeroDocumento != '' and numeroDocumento != null">
+			AND numero_documento_identidad = #{numeroDocumento}
+		</if>
+		</where>
+	</select>
+	
+	<select id = "buscarReporteSolicitudTramite" resultMap = "reporteSolicitudTramiteResultMap"> 
+		<include refid="fragmentoReporteSolicitudTramite" />
+			<where>
+				<if test="idSolicitudTramite != '' and idSolicitudTramite != null">
+					id_solicitud = #{idSolicitudTramite}
+				</if> AND
+				<if test="numeroDocumento != '' and numeroDocumento != null">
+					numero_documento_identidad = #{numeroDocumento}
+				</if>
+			</where>	
+	</select>
+	
+	<select id = "buscarReportePorCodigoYDni" resultMap = "reporteSolicitudTramiteResultMap"> 
+		<include refid="fragmentoReporteSolicitudTramite" />
+			<where>
+				<if test="idSolicitudTramite != '' and idSolicitudTramite != null">
+					AND	id_solicitud = #{idSolicitudTramite}
+				</if> 
+				<if test="numeroDocumento != '' and numeroDocumento != null">
+					AND numero_documento_identidad = #{numeroDocumento}
+				</if> 
+				<if test="codigoAlumno != '' and codigoAlumno != null">
+					AND codigo_alumno = #{codigoAlumno}
+				</if>
+			</where>	
+	</select>
+	
+	<select id="totalSolicitudesAtendidas" resultType="Integer">
+	 		SELECT COUNT (*)
+				FROM vw_con_solicitud_tramite 
+				WHERE CODIGO_ESTADO = '6' AND ( FECHA_SOLICITUD > '31/12/2019')
+	</select>
+	
+	
+	<select id="solicitudesRealizadasEnLaUltimaSemana" resultType="SolicitudTramiteEstadisticaResponse">
+	      SELECT   conteo               AS  conteo
+    			 , fecha			    AS  fecha
+    			 , fecha_descriptiva	AS  descripcionDia
+				
+		  FROM vw_con_sol_tram_estadistica
+	</select>
+	
+	<select id = "notificacionTramiteDerivadoObservado" resultType="SolicitudTramiteSegNotifResponse">
+		<include refid ="fragementoSolicitudTramiteNotificacion" />
+			<where>
+				<if test="numeroDocumento != '' and numeroDocumento != null">
+					AND vwcstsn.numero_documento_identidad = #{numeroDocumento}
+				</if>
+			</where>
+			ORDER BY vwcstsn.fecha_registro_estado DESC 
+	</select>
+	
+	<select id = "obtenerSeguimiento" resultType="SolicitudTramiteSegNotifResponse">
+		<include refid ="fragementoSolicitudTramiteNotificacion" />
+			<where>
+				vwcstsn.id_tramite_seguimiento = #{idTramiteSeguimiento}
+			</where>
+	</select>
+	
+	<update id="actualizarEstadoNotificacion">
+		update MOV_SOL_TRAMITE_SEGUIMIENTO set
+			estado_notif_leido = #{estadoNotifLeido}
+		where id_tramite_seguimiento = #{idTramiteSeguimiento}
+	</update>
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_TRAMITES.PRC_PRO_SOLICITUD_TRAMITE (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idSolicitudTramite,		jdbcType = INTEGER, mode = INOUT},
+             #{objetoMantenido.fechaSolicitud,       	jdbcType = DATE, 	mode = IN},
+             #{objetoMantenido.fechaAprobacion,       	jdbcType = DATE, 	mode = IN},
+             #{objetoMantenido.tipoDocumentoIdentidad,  jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.numeroDocumentoIdentidad,jdbcType = VARCHAR, mode = IN},
+			 #{objetoMantenido.asunto,			       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.justificacion,       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoLocal,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoLocalSolicitante,  jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idTipoTramite,	       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.estado,       			jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.tipoDocumentoRegistrado, jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.numeroExpediente, 		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoSolicitante, 		jdbcType = VARCHAR, mode = IN},
+			 #{usuario,               			    	jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+</mapper>
+
+	
+

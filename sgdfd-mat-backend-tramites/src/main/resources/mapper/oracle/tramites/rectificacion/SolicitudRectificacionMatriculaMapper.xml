@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.tramites.mapper.tramites.rectificacion.SolicitudRectificacionMatriculaMapper">
+
+	 <resultMap id="solicitudRectificacionMatriculaResultMap" type="SolicitudRectificacionMatriculaResponse">
+	    <id property="idSolicitudRectiMatri" 				column="idSolicitudRectiMatricula" />
+	    <result property="codigoAlumno" 					column="codigoAlumno" />
+	    <result property="nombresAlumno" 					column="nombresAlumno" />
+	    <result property="apellidoPaternoAlumno" 			column="apellidoPaternoAlumno" />
+	    <result property="apellidoMaternoAlumno" 			column="apellidoMaternoAlumno" />
+	    <result property="codigoFacultad" 					column="codigoFacultad" />
+	    <result property="nombreFacultad" 					column="nombreFacultad" />
+	    <result property="codigoEscuela" 					column="codigoEscuela" />
+	    <result property="nombreEscuelaProfesional" 		column="nombreEscuelaProfesional" />
+	    <result property="codigoPlan" 						column="codigoPlan" />
+	    <result property="nombrePlan" 						column="nombrePlan" />
+	    <result property="estado" 							column="estado" />
+	    
+	    <result property="semestreAcademicoProceso" 		column="semestreAcademicoProceso" />
+	    
+	    <result property="nombreEstadoSolicitud" 			column="nombreEstadoSolicitud" />
+	    <result property="descripcionEstadoSolicitud" 		column="descripcionEstadoSolicitud" />
+	    <result property="idSolicitudTramite" 				column="idSolicitudTramite" />
+	    <result property="idProcesoRectificacion" 			column="idProcesoRectificacion" />
+	    <result property="fechaRegistro" 					column="fechaRegistro" />
+	    <result property="fechaModificacion" 				column="fechaModificacion" />
+	    
+	    
+	    <collection property="lsOperaciones" javaType="List" ofType="SolicitudRectificacionDetalleResponse">
+		    <id		property="idOperacion" 					column="idOperacion"/>
+		    <result	property="tipoOperacion" 				column="tipoOperacion"/>
+		    <result	property="abreviaturaOperacion" 		column="abreviaturaOperacion"/>
+		    <result	property="descripcionOperacion" 		column="descripcionOperacion"/>
+		    <result property="codigoCurso" 					column="codigoCurso"/>
+		    <result property="nombreCurso" 					column="nombreCurso"/>
+		    <result property="grupoIngreso" 				column="grupoIngreso"/>
+
+		    <result property="codigoCursoDestino" 			column="codigoCursoDestino"/>
+		    <result property="nombreCursoDestino" 			column="nombreCursoDestino"/>
+		    <result property="grupoRetiro" 					column="grupoRetiro"/>
+		    <result property="justificacion" 				column="justificacion"/>
+		    <result property="codigoResultado" 				column="codigoResultado"/>
+		    <result property="abreviaturaCodigoResultado" 	column="abreviaturaCodigoResultado"/>
+		    <result property="descripcionCodigoResultado" 	column="descripcionCodigoResultado"/>
+		    
+		    <result property="estadoEjecucion" 				column="estadoEjecucion"/>
+		    <result property="nombreEstadoEjecucion" 		column="nombreEstadoEjecucion"/>
+		    <result property="descripcionEstadoEjecucion" 	column="descripcionEstadoEjecucion"/>
+		</collection>
+	    
+	  </resultMap>
+	  
+	 
+	<sql id="fragmentoSelectSolicitudRectificacionMatricula">
+
+		  SELECT 
+	              vwctsrm.id_solicitud_recti_matricula        as  idSolicitudRectiMatricula
+	            , vwctsrm.codigo_alumno                       as  codigoAlumno
+	            , vwctsrm.nombres_alumno                      as  nombresAlumno
+	            , vwctsrm.apellido_paterno_alumno             as  apellidoPaternoAlumno
+	            , vwctsrm.apellido_materno_alumno             as  apellidoMaternoAlumno
+	            , vwctsrm.codigo_facultad                     as  codigoFacultad
+	            , vwctsrm.nombre_facultad                     as  nombreFacultad
+	            , vwctsrm.codigo_escuela                      as  codigoEscuela
+	            , vwctsrm.nombre_escuela_profesional          as  nombreEscuelaProfesional
+	            , vwctsrm.codigo_plan                         as  codigoPlan
+	            , vwctsrm.nombre_plan                         as  nombrePlan
+	            , vwctsrm.estado                              as  estado
+	            
+	            , vwctsrm.semestre_academico_proceso          as  semestreAcademicoProceso
+	            
+	            , vwctsrm.nombre_estado_solicitud             as  nombreEstadoSolicitud
+	            , vwctsrm.descripcion_estado_solicitud        as  descripcionEstadoSolicitud
+	            , vwctsrm.id_solicitud_tramite                as  idSolicitudTramite
+	            , vwctsrm.id_proceso_rectificacion            as  idProcesoRectificacion
+	            , vwctsrm.fecha_registro                      as  fechaRegistro
+	            , vwctsrm.fecha_modificacion                  as  fechaModificacion
+	            	            	            
+	            , vwctsrm.id_operacion                        as  idOperacion
+	            , vwctsrm.tipo_operacion                      as  tipoOperacion
+	            , vwctsrm.abreviatura_operacion               as  abreviaturaOperacion
+	            , vwctsrm.descripcion_operacion               as  descripcionOperacion
+	            , vwctsrm.codigo_curso                        as  codigoCurso
+	            , vwctsrm.nombre_curso                    	  as  nombreCurso
+	            , vwctsrm.grupo_ingreso                       as  grupoIngreso
+	            , vwctsrm.codigo_curso_destino                as  codigoCursoDestino
+	            , vwctsrm.nombre_curso_destino                as  nombreCursoDestino
+	            , vwctsrm.grupo_retiro                        as  grupoRetiro
+	            , vwctsrm.justificacion                       as  justificacion
+	            , vwctsrm.codigo_resultado                    as  codigoResultado
+	            , vwctsrm.abreviatura_codigo_resultado        as  abreviaturaCodigoResultado
+	            , vwctsrm.descripcion_codigo_resultado        as  descripcionCodigoResultado
+	            , vwctsrm.estado_ejecucion                    as  estadoEjecucion
+	            , vwctsrm.nombre_estado_ejecucion             as  nombreEstadoEjecucion
+	            , vwctsrm.descripcion_estado_ejecucion        as  descripcionEstadoEjecucion       		
+	      FROM VW_CON_TRA_SOL_RECTI_MATRI vwctsrm
+	</sql>
+	
+
+
+	<select id="buscarTodos" resultMap="solicitudRectificacionMatriculaResultMap">
+		<include refid="fragmentoSelectSolicitudRectificacionMatricula" />
+	</select>
+	
+	<select id="buscarPorId" resultMap="solicitudRectificacionMatriculaResultMap">
+		<include refid="fragmentoSelectSolicitudRectificacionMatricula" />
+		<where>
+		<if test="idSolicitudRectificacionMatricula != '' and idSolicitudRectificacionMatricula != null">
+			vwctsrm.id_solicitud_recti_matricula = #{idSolicitudRectificacionMatricula}
+		</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorCriterio" resultMap="solicitudRectificacionMatriculaResultMap">
+		<include refid="fragmentoSelectSolicitudRectificacionMatricula" />
+		<where>
+		<if test="idSolicitudRectificacionMatricula != '' and idSolicitudRectificacionMatricula != null">
+			vwctsrm.id_solicitud_recti_matricula = #{idSolicitudRectificacionMatricula}
+		</if>
+		<if test="codigoAlumno != '' and codigoAlumno != null">
+			AND vwctsrm.CODIGO_ALUMNO = #{codigoAlumno}
+		</if>
+		<if test="idProcesoRectificacion != '' and idProcesoRectificacion != null">
+			AND vwctsrm.ID_PROCESO_RECTIFICACION = #{idProcesoRectificacion}
+		</if>
+		<if test="codigoCurso != '' and codigoCurso != null">
+			AND vwctsrm.codigo_curso = #{codigoCurso}
+		</if>
+		<if test="codigoFacultad != '' and codigoFacultad != null">
+			AND vwctsrm.codigo_facultad = #{codigoFacultad}
+		</if>
+		<if test="semestreAcademicoProceso != '' and semestreAcademicoProceso != null">
+			AND vwctsrm.semestre_academico_proceso = #{semestreAcademicoProceso}
+		</if>
+		<if test="ocultarCancelados">
+			AND (vwctsrm.estado != 6 AND vwctsrm.codigo_resultado != 3)
+		</if>
+		</where>
+	</select>
+	
+<!-- 	<select id="validacionRectificacion" statementType="CALLABLE"> -->
+<!-- 		{ -->
+<!-- 		call PKG_RECTIFICACIONES.PRO_TRA_RECTI_MATRI ( -->
+<!-- 		     #{idSolicitudRectificacion,                jdbcType = VARCHAR, mode = IN}, -->
+<!--              #{usuario,               			    	jdbcType = VARCHAR, mode = IN}   -->
+<!--              ) -->
+<!--          } -->
+<!-- 	</select> -->
+	
+	<select id="mantener" statementType="CALLABLE">
+		{
+		call PKG_RECTIFICACIONES.PRC_PRO_SOL_RECTI_MATRI (
+		     #{modo,                   					jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idSolicitudRectiMatri,	jdbcType = INTEGER, mode = INOUT},
+             #{objetoMantenido.codigoAlumno,       		jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.codigoFacultad,       	jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.codigoEscuela,  			jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.codigoPlan,				jdbcType = VARCHAR, mode = IN},
+			 #{objetoMantenido.estado,			       	jdbcType = VARCHAR, mode = IN},
+             #{objetoMantenido.idSolicitudTramite,      jdbcType = INTEGER, mode = IN},
+             #{objetoMantenido.idProcesoRectificacion,  jdbcType = INTEGER, mode = IN},
+             #{usuario,               			    	jdbcType = VARCHAR, mode = IN}  
+             )
+         }
+	</select>
+
+</mapper>
+
+	
+

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.edu.unmsm.sgdfd.mat.backend.mantenimientos.mapper.MultitabDetMapper">
+
+	<sql id="fragmentoSelectMultitabDet">
+        SELECT    vwmtr.id_tabla_cab	AS	idMultitabCab
+				, vwmtr.nombre_cab		AS	descripcionMultitabCab
+				, vwmtr.id_item_det		AS	idMultitabDet
+				, vwmtr.descripcion_det	AS	descripcionItem
+				, vwmtr.abreviatura_det	AS	abreviatura
+    	FROM VW_MAN_MULTITAB_DET vwmtr
+    </sql>
+
+    
+    <select id="buscarPorIdMultitabCab" resultType="MultitabDetResponse">
+		<include refid="fragmentoSelectMultitabDet" />
+		<where>
+		<if test="idMultitabCab != '' and idMultitabCab != null">
+			id_tabla_cab = #{idMultitabCab}
+		</if>
+		</where>
+	</select>
+    
+    <select id="buscarTodos" resultType="MultitabDetResponse">
+		<include refid="fragmentoSelectMultitabDet" />
+	</select>
+    
+    <select id="buscarPorIdMultitabCabYIdMultitabDet" resultType="MultitabDetResponse">
+		<include refid="fragmentoSelectMultitabDet" />
+			<where>
+				<if test="idMultitabCab != '' and idMultitabCab != null">
+					id_tabla_cab = #{idMultitabCab}
+				</if>
+				<if test="idMultitabDet != '' and idMultitabDet != null">
+					AND id_item_det = #{idMultitabDet}
+				</if>
+			</where>
+	</select>
+	
+	
+
+    <select id="mantener" statementType="CALLABLE">
+        {
+            CALL PKG_MANTENIMIENTOS.PRC_MAN_MULTITAB_DET(
+                #{modo,  	 									jdbcType=VARCHAR, mode=IN},
+                #{objetoMantenido.idMultitabCab,        		jdbcType=NUMERIC, mode=IN},
+                #{objetoMantenido.idMultitabDet,     			jdbcType=VARCHAR, mode=IN},
+                #{objetoMantenido.descripcionItem,     			jdbcType=VARCHAR, mode=IN},
+                #{objetoMantenido.abreviatura,     				jdbcType=VARCHAR, mode=IN},
+                #{usuario,      	 							jdbcType=VARCHAR, mode=IN}
+            )
+        }
+    </select>
+
+</mapper>
